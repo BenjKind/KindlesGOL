@@ -64,6 +64,9 @@ namespace KindlesGOL
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelGenerations = new System.Windows.Forms.ToolStripStatusLabel();
+            this.intervalStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.aliveStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.seedStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.graphicsPanel1 = new KindlesGOL.GraphicsPanel();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -106,8 +109,9 @@ namespace KindlesGOL
             this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newToolStripMenuItem.Text = "&New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
@@ -115,19 +119,19 @@ namespace KindlesGOL
             this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "&Open";
             // 
             // importToolStripMenu
             // 
             this.importToolStripMenu.Name = "importToolStripMenu";
-            this.importToolStripMenu.Size = new System.Drawing.Size(146, 22);
+            this.importToolStripMenu.Size = new System.Drawing.Size(180, 22);
             this.importToolStripMenu.Text = "&Import";
             // 
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(143, 6);
+            this.toolStripSeparator.Size = new System.Drawing.Size(177, 6);
             // 
             // saveToolStripMenuItem
             // 
@@ -135,18 +139,18 @@ namespace KindlesGOL
             this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(143, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -197,7 +201,7 @@ namespace KindlesGOL
             // 
             this.startStripMenuItem.Name = "startStripMenuItem";
             this.startStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.startStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.startStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.startStripMenuItem.Text = "Start";
             this.startStripMenuItem.Click += new System.EventHandler(this.playStateButton);
             // 
@@ -205,7 +209,7 @@ namespace KindlesGOL
             // 
             this.nextGenStripMenuItem.Name = "nextGenStripMenuItem";
             this.nextGenStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.nextGenStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nextGenStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.nextGenStripMenuItem.Text = "Next Generation";
             this.nextGenStripMenuItem.Click += new System.EventHandler(this.nextGenStateButton);
             // 
@@ -338,7 +342,10 @@ namespace KindlesGOL
             // 
             this.statusStrip1.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabelGenerations});
+            this.toolStripStatusLabelGenerations,
+            this.intervalStripStatusLabel,
+            this.aliveStripStatusLabel,
+            this.seedStripStatusLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 650);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(993, 22);
@@ -348,8 +355,30 @@ namespace KindlesGOL
             // toolStripStatusLabelGenerations
             // 
             this.toolStripStatusLabelGenerations.Name = "toolStripStatusLabelGenerations";
-            this.toolStripStatusLabelGenerations.Size = new System.Drawing.Size(85, 17);
+            this.toolStripStatusLabelGenerations.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.toolStripStatusLabelGenerations.Size = new System.Drawing.Size(100, 17);
             this.toolStripStatusLabelGenerations.Text = "Generation = 0";
+            // 
+            // intervalStripStatusLabel
+            // 
+            this.intervalStripStatusLabel.Name = "intervalStripStatusLabel";
+            this.intervalStripStatusLabel.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.intervalStripStatusLabel.Size = new System.Drawing.Size(76, 17);
+            this.intervalStripStatusLabel.Text = "Interval: x ";
+            // 
+            // aliveStripStatusLabel
+            // 
+            this.aliveStripStatusLabel.Name = "aliveStripStatusLabel";
+            this.aliveStripStatusLabel.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.aliveStripStatusLabel.Size = new System.Drawing.Size(60, 17);
+            this.aliveStripStatusLabel.Text = "Alive: 0";
+            // 
+            // seedStripStatusLabel
+            // 
+            this.seedStripStatusLabel.Name = "seedStripStatusLabel";
+            this.seedStripStatusLabel.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.seedStripStatusLabel.Size = new System.Drawing.Size(53, 17);
+            this.seedStripStatusLabel.Text = "Seed: ";
             // 
             // graphicsPanel1
             // 
@@ -372,6 +401,7 @@ namespace KindlesGOL
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -423,6 +453,9 @@ namespace KindlesGOL
         private System.Windows.Forms.ToolStripMenuItem timeSeedStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private ToolStripTextBox statusStripTextBox;
+        private ToolStripStatusLabel intervalStripStatusLabel;
+        private ToolStripStatusLabel aliveStripStatusLabel;
+        private ToolStripStatusLabel seedStripStatusLabel;
     }
 }
 

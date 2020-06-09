@@ -1,8 +1,11 @@
-﻿using System;
+﻿using KindlesGOL.Properties;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 
 namespace KindlesGOL
@@ -11,6 +14,7 @@ namespace KindlesGOL
     {
         // The universe array
         private bool[,] universe = new bool[25, 25];
+        private bool[,] scratchPad = new bool[25, 25];
 
         // Drawing colors
         private Color gridColor = Color.Black;
@@ -21,7 +25,10 @@ namespace KindlesGOL
         private Timer timer = new Timer();
 
         // Generation count
-        private int generations = 0;
+        int generations = 0;
+
+        // Living cells count
+        int alive = 0;
 
         public Form1()
         {
@@ -31,16 +38,20 @@ namespace KindlesGOL
             timer.Interval = 50; // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer paused
+
+
         }
 
         // Calculate the next generation of cells
-        private void NextGeneration()
+        public void NextGeneration()
         {
+            alive = 0;
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
+                    if (universe[x, y] == true) { alive++; }
                     // TODO: read the universe
                     // int count = CountNeighbors(x, y);
 
@@ -52,6 +63,12 @@ namespace KindlesGOL
 
             // Increment generation count
             generations++;
+            PrintStatusBar();
+        }
+
+        public void PrintStatusBar()
+        {
+            this.aliveStripStatusLabel.Text = ("Alive: " + alive);
 
             // Update status strip generations
             if (generations <= 1)
@@ -101,6 +118,8 @@ namespace KindlesGOL
         {
             this.Close();
         }
+
+        // Paint the graphics panel
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
             // Calculate the width and height of each cell in pixels
@@ -153,6 +172,7 @@ namespace KindlesGOL
             cellBrush.Dispose();
         }
 
+        // Update with mouse clicks in the graphics panel
         private void graphicsPanel1_MouseClick(object sender, MouseEventArgs e)
         {
             // If the left mouse button was clicked
@@ -184,9 +204,34 @@ namespace KindlesGOL
                 // Toggle the cell's state
                 universe[x, y] = !universe[x, y];
 
+                // Updates the count for alive cells on mouse click
+                if (universe[x,y] == true)
+                {
+                    alive++;
+                }
+                if (universe[x, y] == false)
+                {
+                    alive--;
+                }
+
+                // Print the status bar
+                PrintStatusBar();
+
                 // Tell Windows you need to repaint
                 graphicsPanel1.Invalidate();
             }
+        }
+
+        // Click event for hitting tool strip menu item: NEW
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Array.Clear(universe, 0, universe.Length);
+            universe = new bool[25, 25];
+            generations = 0;
+            alive = 0;
+            PrintStatusBar();
+            graphicsPanel1.Invalidate();
+            this.Invalidate();
         }
     }
 }
