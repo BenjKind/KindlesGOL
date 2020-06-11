@@ -8,6 +8,7 @@ namespace KindlesGOL
     {
         // The universe array
         private bool[,] universe = new bool[25, 25];
+
         private bool[,] scratchPad = new bool[25, 25];
 
         // Drawing colors
@@ -24,12 +25,20 @@ namespace KindlesGOL
         // Living cells count
         private int alive = 0;
 
+        // Default Seed Generation
+        private static int randomSeeder(int randomizer)
+        {
+            Random randSeeder = new Random(randomizer);
+            return randSeeder.Next();
+        }
+        int seed = randomSeeder(25018);
+
         #region Initialization and Timer variables
 
         public Form1()
         {
             InitializeComponent();
-            this.intervalStripStatusLabel.Text = "Interval: " + timer.Interval;
+            PrintStatusBar();
 
             // Setup the timer
             timer.Interval = 50; // milliseconds
@@ -43,35 +52,55 @@ namespace KindlesGOL
 
         private void NextGeneration()
         {
+            scratchPad = new bool[25, 25];
             alive = 0;
             // Iterate through the universe in the y, top to bottom
-            for (int y = 0; y < universe.GetLength(1); y++)
+            for (int y = 0; y < universe.GetLength(0); y++)
             {
                 // Iterate through the universe in the x, left to right
-                for (int x = 0; x < universe.GetLength(0); x++)
+                for (int x = 0; x < universe.GetLength(1); x++)
                 {
                     if (universe[x, y] == true) { alive++; }
 
                     // Read universe
-                    int neighborsforCell = 0;
-                    neighborsforCell = CountNeighborsFinite(x, y);
+                    int neighborsToCell = 0;
+                    neighborsToCell = CountNeighborsFinite(x, y);
 
                     // Apply the rules
-                    if (neighborsforCell <= 1 || neighborsforCell >= 4)
+                    if (universe[x, y] == true)
                     {
-                        scratchPad[x, y] = false;
+                        if (neighborsToCell == 2)
+                        {
+                            scratchPad[x, y] = true;
+                        }
+                        if (neighborsToCell == 3)
+                        {
+                            scratchPad[x, y] = true;
+                        }
+                        if (neighborsToCell < 2)
+                        {
+                            scratchPad[x, y] = false;
+                        }
+                        if (neighborsToCell > 3)
+                        {
+                            scratchPad[x, y] = false;
+                        }
                     }
-                    if (neighborsforCell == 2 || neighborsforCell == 3)
+                    if (universe[x, y] == false)
                     {
-                        scratchPad[x, y] = true;
+                        if (neighborsToCell == 3)
+                        {
+                            scratchPad[x, y] = true;
+                        }
                     }
                 }
             }
 
             // Increment generation count
-            bool[,] temp = universe;
+            bool[,] temp2 = universe;
             universe = scratchPad;
-            scratchPad = temp;
+            scratchPad = temp2;
+
             generations++;
             PrintStatusBar();
             graphicsPanel1.Invalidate();
@@ -85,6 +114,7 @@ namespace KindlesGOL
         {
             this.aliveStripStatusLabel.Text = "Alive: " + alive;
             this.intervalStripStatusLabel.Text = "Interval: " + timer.Interval;
+            this.seedStripStatusLabel.Text = "Seed: " + seed;
 
             // Update status strip generations
             if (generations <= 1)
@@ -373,7 +403,6 @@ namespace KindlesGOL
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Array.Clear(universe, 0, universe.Length);
             universe = new bool[25, 25];
             scratchPad = new bool[25, 25];
             generations = 0;
@@ -386,6 +415,28 @@ namespace KindlesGOL
         }
 
         #endregion Click event for hitting NEW
+
+        #region Randomize Universe
+
+        private void randomizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            newToolStripMenuItem_Click(sender, e);
+            Random random = new Random(seed);
+
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                for (int x = 0; x < universe.GetLength(0); x++)
+                { 
+                    if (random.Next(0, 3) == 0)
+                    {
+                        universe[x, y] = true;
+                        alive++;
+                    }
+                }
+            }
+        }
+
+        #endregion Randomize Universe
 
         #endregion Buttons logic
     }

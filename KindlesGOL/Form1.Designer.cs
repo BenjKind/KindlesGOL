@@ -225,19 +225,20 @@ namespace KindlesGOL
             // newSeedStripMenuItem
             // 
             this.newSeedStripMenuItem.Name = "newSeedStripMenuItem";
-            this.newSeedStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.newSeedStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newSeedStripMenuItem.Text = "From Seed";
+            this.newSeedStripMenuItem.Click += new System.EventHandler(this.randomizeToolStripMenuItem_Click);
             // 
             // curSeedStripMenuItem
             // 
             this.curSeedStripMenuItem.Name = "curSeedStripMenuItem";
-            this.curSeedStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.curSeedStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.curSeedStripMenuItem.Text = "From Current Seed";
             // 
             // timeSeedStripMenuItem
             // 
             this.timeSeedStripMenuItem.Name = "timeSeedStripMenuItem";
-            this.timeSeedStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.timeSeedStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.timeSeedStripMenuItem.Text = "From Time";
             // 
             // settingsToolStripMenuItem
