@@ -7,9 +7,9 @@ namespace KindlesGOL
     public partial class Form1 : Form
     {
         // The universe array
-        private bool[,] universe = new bool[25, 25];
+        private bool[,] universe = new bool[50, 50];
 
-        private bool[,] scratchPad = new bool[25, 25];
+        private bool[,] scratchPad = new bool[50, 50];
 
         // Drawing colors
         private Color gridColor = Color.Black;
@@ -31,7 +31,8 @@ namespace KindlesGOL
             Random randSeeder = new Random(randomizer);
             return randSeeder.Next();
         }
-        int seed = randomSeeder(25018);
+
+        private int seed = randomSeeder(25018);
 
         #region Initialization and Timer variables
 
@@ -52,7 +53,7 @@ namespace KindlesGOL
 
         private void NextGeneration()
         {
-            scratchPad = new bool[25, 25];
+            scratchPad = new bool[50, 50];
             alive = 0;
             // Iterate through the universe in the y, top to bottom
             for (int y = 0; y < universe.GetLength(0); y++)
@@ -197,16 +198,13 @@ namespace KindlesGOL
                     {
                         if (universe[x, y])
                         {
-                            if (neighbors >= 1)
+                            if (neighbors == 2 || neighbors == 3)
                             {
-                                if (neighbors == 2 || neighbors == 3)
-                                {
-                                    e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Green, cellRect, stringFormat);
-                                }
-                                else
-                                {
-                                    e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Red, cellRect, stringFormat);
-                                }
+                                e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Green, cellRect, stringFormat);
+                            }
+                            else
+                            {
+                                e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Red, cellRect, stringFormat);
                             }
                         }
                         else
@@ -403,8 +401,8 @@ namespace KindlesGOL
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            universe = new bool[25, 25];
-            scratchPad = new bool[25, 25];
+            universe = new bool[50, 50];
+            scratchPad = new bool[50, 50];
             generations = 0;
             alive = 0;
             PrintStatusBar();
@@ -426,7 +424,7 @@ namespace KindlesGOL
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 for (int x = 0; x < universe.GetLength(0); x++)
-                { 
+                {
                     if (random.Next(0, 3) == 0)
                     {
                         universe[x, y] = true;
