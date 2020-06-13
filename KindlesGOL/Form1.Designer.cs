@@ -43,8 +43,8 @@ namespace KindlesGOL
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.neighborCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.finiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toroidalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.finiteStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nextGenStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,6 +66,7 @@ namespace KindlesGOL
             this.intervalStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.aliveStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.seedStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.gridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.graphicsPanel1 = new KindlesGOL.GraphicsPanel();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -156,36 +157,43 @@ namespace KindlesGOL
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.gridToolStripMenuItem,
             this.neighborCountToolStripMenuItem,
             this.toolStripSeparator2,
-            this.toroidalToolStripMenuItem,
-            this.finiteStripMenuItem});
+            this.finiteToolStripMenuItem,
+            this.toroidalToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 27);
             this.viewToolStripMenuItem.Text = "&View";
             // 
             // neighborCountToolStripMenuItem
             // 
+            this.neighborCountToolStripMenuItem.CheckOnClick = true;
             this.neighborCountToolStripMenuItem.Name = "neighborCountToolStripMenuItem";
-            this.neighborCountToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.neighborCountToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.neighborCountToolStripMenuItem.Text = "Neighbor Count";
+            this.neighborCountToolStripMenuItem.Click += new System.EventHandler(this.viewNeighborCountToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(157, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            // 
+            // finiteToolStripMenuItem
+            // 
+            this.finiteToolStripMenuItem.CheckOnClick = true;
+            this.finiteToolStripMenuItem.Name = "finiteToolStripMenuItem";
+            this.finiteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.finiteToolStripMenuItem.Text = "Finite";
+            this.finiteToolStripMenuItem.Click += new System.EventHandler(this.viewFiniteToolStripMenuItem_Click);
             // 
             // toroidalToolStripMenuItem
             // 
+            this.toroidalToolStripMenuItem.CheckOnClick = true;
             this.toroidalToolStripMenuItem.Name = "toroidalToolStripMenuItem";
-            this.toroidalToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.toroidalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.toroidalToolStripMenuItem.Text = "Toroidal";
-            // 
-            // finiteStripMenuItem
-            // 
-            this.finiteStripMenuItem.Name = "finiteStripMenuItem";
-            this.finiteStripMenuItem.Size = new System.Drawing.Size(160, 22);
-            this.finiteStripMenuItem.Text = "Finite";
+            this.toroidalToolStripMenuItem.Click += new System.EventHandler(this.viewToroidalToolStripMenuItem_Click);
             // 
             // runToolStripMenuItem
             // 
@@ -225,20 +233,20 @@ namespace KindlesGOL
             // newSeedStripMenuItem
             // 
             this.newSeedStripMenuItem.Name = "newSeedStripMenuItem";
-            this.newSeedStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newSeedStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.newSeedStripMenuItem.Text = "From Seed";
             this.newSeedStripMenuItem.Click += new System.EventHandler(this.randomizeToolStripMenuItem_Click);
             // 
             // curSeedStripMenuItem
             // 
             this.curSeedStripMenuItem.Name = "curSeedStripMenuItem";
-            this.curSeedStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.curSeedStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.curSeedStripMenuItem.Text = "From Current Seed";
             // 
             // timeSeedStripMenuItem
             // 
             this.timeSeedStripMenuItem.Name = "timeSeedStripMenuItem";
-            this.timeSeedStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.timeSeedStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.timeSeedStripMenuItem.Text = "From Time";
             // 
             // settingsToolStripMenuItem
@@ -331,8 +339,8 @@ namespace KindlesGOL
             this.nextStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.nextStripButton.Name = "nextStripButton";
             this.nextStripButton.Size = new System.Drawing.Size(23, 22);
-            this.nextStripButton.Text = "toolStripButton4";
-            this.nextStripButton.ToolTipText = "Next";
+            this.nextStripButton.Text = "Next Generation";
+            this.nextStripButton.ToolTipText = "Next Generation";
             this.nextStripButton.Click += new System.EventHandler(this.nextGenStateButton);
             // 
             // statusStrip1
@@ -377,6 +385,14 @@ namespace KindlesGOL
             this.seedStripStatusLabel.Size = new System.Drawing.Size(53, 17);
             this.seedStripStatusLabel.Text = "Seed: ";
             // 
+            // gridToolStripMenuItem
+            // 
+            this.gridToolStripMenuItem.CheckOnClick = true;
+            this.gridToolStripMenuItem.Name = "gridToolStripMenuItem";
+            this.gridToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gridToolStripMenuItem.Text = "Grid";
+            this.gridToolStripMenuItem.Click += new System.EventHandler(this.viewGridToolStripMenuItem_Click);
+            // 
             // graphicsPanel1
             // 
             this.graphicsPanel1.BackColor = System.Drawing.SystemColors.Window;
@@ -403,6 +419,7 @@ namespace KindlesGOL
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Game of Life - Kindle";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -439,7 +456,7 @@ namespace KindlesGOL
         public System.Windows.Forms.ToolStripButton playState;
         private System.Windows.Forms.ToolStripMenuItem importToolStripMenu;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem finiteStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem finiteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nextGenStripMenuItem;
@@ -452,6 +469,7 @@ namespace KindlesGOL
         private ToolStripStatusLabel intervalStripStatusLabel;
         private ToolStripStatusLabel aliveStripStatusLabel;
         private ToolStripStatusLabel seedStripStatusLabel;
+        private ToolStripMenuItem gridToolStripMenuItem;
     }
 }
 

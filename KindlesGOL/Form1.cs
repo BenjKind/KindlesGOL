@@ -25,6 +25,11 @@ namespace KindlesGOL
         // Living cells count
         private int alive = 0;
 
+        // User Choices Stuff
+        private bool viewNeighborCountEnabled = true;
+        private bool neighborCountType = true;
+        private bool viewGrid = true;
+
         // Default Seed Generation
         private static int randomSeeder(int randomizer)
         {
@@ -39,12 +44,20 @@ namespace KindlesGOL
         public Form1()
         {
             InitializeComponent();
-            PrintStatusBar();
+
+            // Check the default view options
+            finiteToolStripMenuItem.Checked = true;
+            finiteToolStripMenuItem.Enabled = false;
+            gridToolStripMenuItem.Checked = true;
+            neighborCountToolStripMenuItem.Checked = true;
 
             // Setup the timer
-            timer.Interval = 50; // milliseconds
+            timer.Interval = 32; // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer paused
+
+            // Initialize numbers on the status bar
+            PrintStatusBar();
         }
 
         #endregion Initialization and Timer variables
@@ -65,7 +78,14 @@ namespace KindlesGOL
 
                     // Read universe
                     int neighborsToCell = 0;
-                    neighborsToCell = CountNeighborsFinite(x, y);
+                    if (neighborCountType == true)
+                    {
+                        neighborsToCell = CountNeighborsFinite(x, y);
+                    }
+                    if (neighborCountType == false)
+                    {
+                        neighborsToCell = CountNeighborsToroidal(x, y);
+                    }
 
                     // Apply the rules
                     if (universe[x, y] == true)
@@ -81,10 +101,12 @@ namespace KindlesGOL
                         if (neighborsToCell < 2)
                         {
                             scratchPad[x, y] = false;
+                            alive--;
                         }
                         if (neighborsToCell > 3)
                         {
                             scratchPad[x, y] = false;
+                            alive--;
                         }
                     }
                     if (universe[x, y] == false)
@@ -92,6 +114,7 @@ namespace KindlesGOL
                         if (neighborsToCell == 3)
                         {
                             scratchPad[x, y] = true;
+                            alive++;
                         }
                     }
                 }
@@ -163,7 +186,7 @@ namespace KindlesGOL
             Brush cellBrush = new SolidBrush(cellColor);
 
             // Font for filling neighbors with number for how many neighbors each cell has.
-            Font font = new Font("Arial", 12f);
+            Font font = new Font("Arial", 10f);
 
             StringFormat stringFormat = new StringFormat();
             stringFormat.Alignment = StringAlignment.Center;
@@ -192,36 +215,49 @@ namespace KindlesGOL
                     }
 
                     // Draw the number of neighbors for each cell
-                    neighbors = CountNeighborsFinite(x, y);
-
-                    if (neighbors >= 1)
+                    if (viewNeighborCountEnabled == true)
                     {
-                        if (universe[x, y])
+                        if (neighborCountType == true)
                         {
-                            if (neighbors == 2 || neighbors == 3)
-                            {
-                                e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Green, cellRect, stringFormat);
-                            }
-                            else
-                            {
-                                e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Red, cellRect, stringFormat);
-                            }
+                            neighbors = CountNeighborsFinite(x, y);
                         }
-                        else
+                        if (neighborCountType == false)
                         {
-                            if (neighbors == 3)
+                            neighbors = CountNeighborsToroidal(x, y);
+                        }
+
+                        if (neighbors >= 1)
+                        {
+                            if (universe[x, y])
                             {
-                                e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Green, cellRect, stringFormat);
+                                if (neighbors == 2 || neighbors == 3)
+                                {
+                                    e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Green, cellRect, stringFormat);
+                                }
+                                else
+                                {
+                                    e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Red, cellRect, stringFormat);
+                                }
                             }
                             else
                             {
-                                e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Red, cellRect, stringFormat);
+                                if (neighbors == 3)
+                                {
+                                    e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Green, cellRect, stringFormat);
+                                }
+                                else
+                                {
+                                    e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Red, cellRect, stringFormat);
+                                }
                             }
                         }
                     }
 
                     // Outline the cell with a pen
-                    e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+                    if (viewGrid == true)
+                    {
+                        e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+                    }
                 }
             }
 
@@ -276,7 +312,7 @@ namespace KindlesGOL
                     int xCheck = x + xOffset;
                     int yCheck = y + yOffset;
 
-                    if (xOffset == 0 && yOffset == 0)
+                    if (!(xOffset == 0 && yOffset == 0))
                     {
                         if (xCheck < 0)
                         {
@@ -300,7 +336,7 @@ namespace KindlesGOL
             }
             return count;
         }
-
+            
         #endregion Count Neighbors
 
         #region Update with mouse clicks in the graphics panel
@@ -418,7 +454,7 @@ namespace KindlesGOL
 
         private void randomizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            newToolStripMenuItem_Click(sender, e);
+            //newToolStripMenuItem_Click(sender, e);
             Random random = new Random(seed);
 
             for (int y = 0; y < universe.GetLength(1); y++)
@@ -432,9 +468,71 @@ namespace KindlesGOL
                     }
                 }
             }
+            PrintStatusBar();
+            graphicsPanel1.Invalidate();
         }
 
         #endregion Randomize Universe
+
+        #region Toggle view of neighborcount
+        private void viewNeighborCountToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (viewNeighborCountEnabled == true)
+            {
+                viewNeighborCountEnabled = false;
+            }
+            else
+            {
+                viewNeighborCountEnabled = true;
+            }
+            graphicsPanel1.Invalidate();
+        }
+
+        #endregion
+
+        #region Toggle view of the grid
+        private void viewGridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (viewGrid == true)
+            {
+                viewGrid = false;
+            }
+            else
+            {
+                viewGrid = true;
+            }
+            graphicsPanel1.Invalidate();
+        }
+
+        #endregion
+
+        #region Pick neighbor count type
+
+        private void viewFiniteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (neighborCountType == false)
+            {
+                neighborCountType = true;
+                toroidalToolStripMenuItem.Checked = false;
+                toroidalToolStripMenuItem.Enabled = true;
+                finiteToolStripMenuItem.Enabled = false;
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void viewToroidalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (neighborCountType == true)
+            {
+                neighborCountType = false;
+                finiteToolStripMenuItem.Checked = false;
+                finiteToolStripMenuItem.Enabled = true;
+                toroidalToolStripMenuItem.Enabled = false;
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        #endregion
 
         #endregion Buttons logic
     }
