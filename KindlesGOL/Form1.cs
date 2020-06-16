@@ -243,23 +243,23 @@ namespace KindlesGOL
                         e.Graphics.FillRectangle(cellBrush, cellRect);
                     }
 
-                    // Check to ensure universe is smaller than 125x125 to enable/disable neighborcount, causes performance issues
-                    if (universe.GetLength(0) <= 125 || universe.GetLength(1) <= 125) // Enable Counts
-                    {
-                        viewNeighborCountEnabled = true;
-                        neighborCountToolStripMenuItem.Checked = true;
-                        neighborCountToolStripMenuItem.Enabled = true;
-                    }
-                    if (universe.GetLength(0) >= 125 || universe.GetLength(1) >= 125) // Disable Counts
-                    {
-                        viewNeighborCountEnabled = false;
-                        neighborCountToolStripMenuItem.Checked = false;
-                        neighborCountToolStripMenuItem.Enabled = false;
-                    }
-
                     // Draw the number of neighbors for each cell
                     if (viewNeighborCountEnabled == true)
                     {
+                        // Check to ensure universe is smaller than 125x125 to enable/disable neighborcount, causes performance issues
+                        if (universe.GetLength(0) <= 125 || universe.GetLength(1) <= 125) // Enable Counts
+                        {
+                            viewNeighborCountEnabled = true;
+                            neighborCountToolStripMenuItem.Checked = true;
+                            neighborCountToolStripMenuItem.Enabled = true;
+                        }
+                        if (universe.GetLength(0) >= 125 || universe.GetLength(1) >= 125) // Disable Counts
+                        {
+                            viewNeighborCountEnabled = false;
+                            neighborCountToolStripMenuItem.Checked = false;
+                            neighborCountToolStripMenuItem.Enabled = false;
+                        }
+
                         if (neighborCountType == true)
                         {
                             neighbors = CountNeighborsFinite(x, y);
