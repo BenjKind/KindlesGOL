@@ -7,9 +7,12 @@ namespace KindlesGOL
     public partial class Form1 : Form
     {
         // The universe array
-        private bool[,] universe = new bool[50, 50];
+        private static int uniSizeX = Properties.Settings.Default.universeSizeX;
 
-        private bool[,] scratchPad = new bool[50, 50];
+        private static int uniSizeY = Properties.Settings.Default.universeSizeY;
+
+        private bool[,] universe = new bool[uniSizeX, uniSizeY];
+        private bool[,] scratchPad = new bool[uniSizeX, uniSizeY];
 
         // Drawing colors
         private Color gridColor = Color.Black;
@@ -27,17 +30,19 @@ namespace KindlesGOL
 
         // User Choices Stuff
         private bool viewNeighborCountEnabled = true;
+
         private bool neighborCountType = true;
         private bool viewGrid = true;
+        private int intervalChoice = Properties.Settings.Default.interval;
 
         // Default Seed Generation
         private static int randomSeeder(int randomizer)
         {
             Random randSeeder = new Random(randomizer);
-            return randSeeder.Next();
+            return randSeeder.Next(10000, 100000);
         }
 
-        private int seed = randomSeeder(25018);
+        private int seed;
 
         #region Initialization and Timer variables
 
@@ -52,12 +57,36 @@ namespace KindlesGOL
             neighborCountToolStripMenuItem.Checked = true;
 
             // Setup the timer
-            timer.Interval = 32; // milliseconds
+            timer.Interval = intervalChoice; // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer paused
 
+            //
+            // Read Settings on initialization
+            //
+            uniSizeX = Properties.Settings.Default.universeSizeX;
+            uniSizeY = Properties.Settings.Default.universeSizeY;
+            if (uniSizeX > 1000)
+            {
+                uniSizeX = 1000;
+            }
+            if (uniSizeY > 1000)
+            {
+                uniSizeY = 1000;
+            }
+
+            seed = Properties.Settings.Default.seedSet;
+
+            cellColor = Properties.Settings.Default.cellColors;
+            gridColor = Properties.Settings.Default.gridColors;
+            //
+            // End of Read Settings
+            //
+
             // Initialize numbers on the status bar
             PrintStatusBar();
+
+            graphicsPanel1.Invalidate();
         }
 
         #endregion Initialization and Timer variables
@@ -66,7 +95,7 @@ namespace KindlesGOL
 
         private void NextGeneration()
         {
-            scratchPad = new bool[50, 50];
+            scratchPad = new bool[uniSizeX, uniSizeY];
             alive = 0;
             // Iterate through the universe in the y, top to bottom
             for (int y = 0; y < universe.GetLength(0); y++)
@@ -214,6 +243,20 @@ namespace KindlesGOL
                         e.Graphics.FillRectangle(cellBrush, cellRect);
                     }
 
+                    // Check to ensure universe is smaller than 125x125 to enable/disable neighborcount, causes performance issues
+                    if (universe.GetLength(0) <= 125 || universe.GetLength(1) <= 125) // Enable Counts
+                    {
+                        viewNeighborCountEnabled = true;
+                        neighborCountToolStripMenuItem.Checked = true;
+                        neighborCountToolStripMenuItem.Enabled = true;
+                    }
+                    if (universe.GetLength(0) >= 125 || universe.GetLength(1) >= 125) // Disable Counts
+                    {
+                        viewNeighborCountEnabled = false;
+                        neighborCountToolStripMenuItem.Checked = false;
+                        neighborCountToolStripMenuItem.Enabled = false;
+                    }
+
                     // Draw the number of neighbors for each cell
                     if (viewNeighborCountEnabled == true)
                     {
@@ -336,7 +379,7 @@ namespace KindlesGOL
             }
             return count;
         }
-            
+
         #endregion Count Neighbors
 
         #region Update with mouse clicks in the graphics panel
@@ -437,12 +480,11 @@ namespace KindlesGOL
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            universe = new bool[50, 50];
-            scratchPad = new bool[50, 50];
+            universe = new bool[uniSizeX, uniSizeY];
+            scratchPad = new bool[uniSizeX, uniSizeY];
             generations = 0;
             alive = 0;
             PrintStatusBar();
-            graphicsPanel1.Invalidate();
             timer.Start();
             playStateButton(sender, e);
             graphicsPanel1.Invalidate();
@@ -452,9 +494,56 @@ namespace KindlesGOL
 
         #region Randomize Universe
 
-        private void randomizeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void randomizeFromInputedSeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //newToolStripMenuItem_Click(sender, e);
+            seedModalDiag seeder = new seedModalDiag();
+
+            if (DialogResult.OK == seeder.ShowDialog())
+            {
+                seed = seeder.inputNum;
+                universe = new bool[uniSizeX, uniSizeY];
+                Random random = new Random(seed);
+
+                for (int y = 0; y < universe.GetLength(1); y++)
+                {
+                    for (int x = 0; x < universe.GetLength(0); x++)
+                    {
+                        if (random.Next(0, 3) == 0)
+                        {
+                            universe[x, y] = true;
+                            alive++;
+                        }
+                    }
+                }
+                PrintStatusBar();
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void randomizeFromCurSeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            universe = new bool[uniSizeX, uniSizeY];
+            Random random = new Random(seed);
+
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    if (random.Next(0, 3) == 0)
+                    {
+                        universe[x, y] = true;
+                        alive++;
+                    }
+                }
+            }
+            PrintStatusBar();
+            graphicsPanel1.Invalidate();
+        }
+
+        private void randomizeFromTimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            seed = ((int)DateTime.Now.Ticks & 0x0000FFFF);
+            universe = new bool[uniSizeX, uniSizeY];
             Random random = new Random(seed);
 
             for (int y = 0; y < universe.GetLength(1); y++)
@@ -475,6 +564,7 @@ namespace KindlesGOL
         #endregion Randomize Universe
 
         #region Toggle view of neighborcount
+
         private void viewNeighborCountToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (viewNeighborCountEnabled == true)
@@ -488,9 +578,10 @@ namespace KindlesGOL
             graphicsPanel1.Invalidate();
         }
 
-        #endregion
+        #endregion Toggle view of neighborcount
 
         #region Toggle view of the grid
+
         private void viewGridToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (viewGrid == true)
@@ -504,7 +595,7 @@ namespace KindlesGOL
             graphicsPanel1.Invalidate();
         }
 
-        #endregion
+        #endregion Toggle view of the grid
 
         #region Pick neighbor count type
 
@@ -532,8 +623,112 @@ namespace KindlesGOL
             }
         }
 
-        #endregion
+        #endregion Pick neighbor count type
+
+        #region Universe Options
+
+        private void universeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            uniOptions options = new uniOptions();
+
+            if (DialogResult.OK == options.ShowDialog())
+            {
+                timer.Interval = options.inputInterval;
+                intervalChoice = options.inputInterval;
+                uniSizeX = options.inputWidth;
+                uniSizeY = options.inputHeight;
+
+                universe = new bool[uniSizeX, uniSizeY];
+                scratchPad = new bool[uniSizeX, uniSizeY];
+                generations = 0;
+                alive = 0;
+                PrintStatusBar();
+                timer.Start();
+                playStateButton(sender, e);
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        #endregion Universe Options
+
+        #region Cell Color
+
+        private void cellColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog back = new ColorDialog();
+            back.Color = cellColor;
+
+            if (DialogResult.OK == back.ShowDialog())
+            {
+                cellColor = back.Color;
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        #endregion Cell Color
+
+        #region Grid Color
+
+        private void gridColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog grid = new ColorDialog();
+            grid.Color = gridColor;
+
+            if (DialogResult.OK == grid.ShowDialog())
+            {
+                gridColor = grid.Color;
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        #endregion Grid Color
+
+        #region Reset settings
+
+        private void resetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Reset();
+
+            // Read Settings
+            uniSizeX = Properties.Settings.Default.universeSizeX;
+            uniSizeY = Properties.Settings.Default.universeSizeY;
+
+            graphicsPanel1.Invalidate();
+        }
+
+        #endregion Reset settings
+
+        #region Reload settings
+
+        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Reload();
+
+            // Read Settings
+            uniSizeX = Properties.Settings.Default.universeSizeX;
+            uniSizeY = Properties.Settings.Default.universeSizeY;
+
+            graphicsPanel1.Invalidate();
+        }
+
+        #endregion Reload settings
 
         #endregion Buttons logic
+
+        #region Settings Logic
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Properties.Settings.Default.universeSizeX = uniSizeX;
+            Properties.Settings.Default.universeSizeY = uniSizeY;
+            Properties.Settings.Default.interval = intervalChoice;
+            Properties.Settings.Default.seedSet = seed;
+            Properties.Settings.Default.cellColors = cellColor;
+            Properties.Settings.Default.gridColors = gridColor;
+
+            Properties.Settings.Default.Save();
+        }
+
+        #endregion Settings Logic
     }
 }
