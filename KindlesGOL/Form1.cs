@@ -29,10 +29,10 @@ namespace KindlesGOL
         private int alive = 0;
 
         // User Choices Stuff
-        private bool viewNeighborCountEnabled = true;
+        private bool viewNeighborCountEnabled = Properties.Settings.Default.neighborCountEnabledSetting;
 
-        private bool neighborCountType = true;
-        private bool viewGrid = true;
+        private bool neighborCountType = Properties.Settings.Default.neighborCountTypeSetting;
+        private bool viewGrid = Properties.Settings.Default.viewGridSetting;
         private int intervalChoice = Properties.Settings.Default.interval;
 
         // Default Seed Generation
@@ -42,7 +42,7 @@ namespace KindlesGOL
             return randSeeder.Next(10000, 100000);
         }
 
-        private int seed;
+        private int seed = Properties.Settings.Default.seedSet;
 
         #region Initialization and Timer variables
 
@@ -57,7 +57,7 @@ namespace KindlesGOL
             neighborCountToolStripMenuItem.Checked = true;
 
             // Setup the timer
-            timer.Interval = intervalChoice; // milliseconds
+            timer.Interval = Properties.Settings.Default.interval; // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer paused
 
@@ -74,9 +74,6 @@ namespace KindlesGOL
             {
                 uniSizeY = 1000;
             }
-
-            seed = Properties.Settings.Default.seedSet;
-
             cellColor = Properties.Settings.Default.cellColors;
             gridColor = Properties.Settings.Default.gridColors;
             //
@@ -692,7 +689,22 @@ namespace KindlesGOL
             // Read Settings
             uniSizeX = Properties.Settings.Default.universeSizeX;
             uniSizeY = Properties.Settings.Default.universeSizeY;
+            seed = Properties.Settings.Default.seedSet;
+            cellColor = Properties.Settings.Default.cellColors;
+            gridColor = Properties.Settings.Default.gridColors;
+            viewNeighborCountEnabled = Properties.Settings.Default.neighborCountEnabledSetting;
+            neighborCountType = Properties.Settings.Default.neighborCountTypeSetting;
+            viewGrid = Properties.Settings.Default.viewGridSetting;
+            intervalChoice = Properties.Settings.Default.interval;
 
+            // Prevent crash by reloading world
+            universe = new bool[uniSizeX, uniSizeY];
+            scratchPad = new bool[uniSizeX, uniSizeY];
+            generations = 0;
+            alive = 0;
+            PrintStatusBar();
+            timer.Start();
+            playStateButton(sender, e);
             graphicsPanel1.Invalidate();
         }
 
@@ -707,7 +719,22 @@ namespace KindlesGOL
             // Read Settings
             uniSizeX = Properties.Settings.Default.universeSizeX;
             uniSizeY = Properties.Settings.Default.universeSizeY;
+            seed = Properties.Settings.Default.seedSet;
+            cellColor = Properties.Settings.Default.cellColors;
+            gridColor = Properties.Settings.Default.gridColors;
+            viewNeighborCountEnabled = Properties.Settings.Default.neighborCountEnabledSetting;
+            neighborCountType = Properties.Settings.Default.neighborCountTypeSetting;
+            viewGrid = Properties.Settings.Default.viewGridSetting;
+            intervalChoice = Properties.Settings.Default.interval;
 
+            // Prevent crash by reloading world
+            universe = new bool[uniSizeX, uniSizeY];
+            scratchPad = new bool[uniSizeX, uniSizeY];
+            generations = 0;
+            alive = 0;
+            PrintStatusBar();
+            timer.Start();
+            playStateButton(sender, e);
             graphicsPanel1.Invalidate();
         }
 
@@ -725,6 +752,9 @@ namespace KindlesGOL
             Properties.Settings.Default.seedSet = seed;
             Properties.Settings.Default.cellColors = cellColor;
             Properties.Settings.Default.gridColors = gridColor;
+            Properties.Settings.Default.neighborCountTypeSetting = neighborCountType;
+            Properties.Settings.Default.neighborCountEnabledSetting = viewNeighborCountEnabled;
+            Properties.Settings.Default.viewGridSetting = viewGrid;
 
             Properties.Settings.Default.Save();
         }

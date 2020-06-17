@@ -94,5 +94,41 @@ namespace KindlesGOL.Properties {
                 this["gridColors"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool neighborCountTypeSetting {
+            get {
+                return ((bool)(this["neighborCountTypeSetting"]));
+            }
+            set {
+                this["neighborCountTypeSetting"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool neighborCountEnabledSetting {
+            get {
+                return ((bool)(this["neighborCountEnabledSetting"]));
+            }
+            set {
+                this["neighborCountEnabledSetting"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool viewGridSetting {
+            get {
+                return ((bool)(this["viewGridSetting"]));
+            }
+            set {
+                this["viewGridSetting"] = value;
+            }
+        }
     }
 }
