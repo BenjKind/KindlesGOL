@@ -19,12 +19,14 @@ namespace KindlesGOL
 
         public int inputNum
         {
+            // Sets the seed inputed by the number
             get { return (int)seedIntInput.Value; }
             set { seedIntInput.Value = value; }
         }
 
         private void buttonRandomize_Click(object sender, EventArgs e)
         {
+            // Function for randomizing the seed the user wants
             Random rand = new Random();
             inputNum = rand.Next(0, 50000);
         }

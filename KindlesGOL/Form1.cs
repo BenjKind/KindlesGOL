@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
+using System.Text;
 using System.Windows.Forms;
 
 namespace KindlesGOL
@@ -7,17 +9,22 @@ namespace KindlesGOL
     public partial class Form1 : Form
     {
         // The universe array
-        private static int uniSizeX = Properties.Settings.Default.universeSizeX;
+        // Determines the size of the array on the X Axis
+        private static int uniSizeX = Properties.Settings.Default.universeSizeXSetting;
 
-        private static int uniSizeY = Properties.Settings.Default.universeSizeY;
+        // Determines the size of the array on the Y Axis
+        private static int uniSizeY = Properties.Settings.Default.universeSizeYSetting;
 
+        // Generates the 2-D array for the universe
         private bool[,] universe = new bool[uniSizeX, uniSizeY];
+
+        // This will only be used for creating the next generation
         private bool[,] scratchPad = new bool[uniSizeX, uniSizeY];
 
         // Drawing colors
         private Color gridColor = Color.Black;
-
         private Color cellColor = Color.LightGray;
+        private Color backColor = Color.White;
 
         // The Timer class
         private Timer timer = new Timer();
@@ -29,11 +36,19 @@ namespace KindlesGOL
         private int alive = 0;
 
         // User Choices Stuff
+        // This will tell if the user wants to see the neighbor count
         private bool viewNeighborCountEnabled = Properties.Settings.Default.neighborCountEnabledSetting;
 
+        // This will tell what kind of neighbor count the user wants to see.
+        // True = Finite
+        // False = Toroidal
         private bool neighborCountType = Properties.Settings.Default.neighborCountTypeSetting;
+
+        // This will tell if the user wants to see the grid or not
         private bool viewGrid = Properties.Settings.Default.viewGridSetting;
-        private int intervalChoice = Properties.Settings.Default.interval;
+
+        // This is the interval that the timer will go by in miliseconds, will be applied to the timer in Form1()
+        private int intervalChoice = Properties.Settings.Default.intervalSetting;
 
         // Default Seed Generation
         private static int randomSeeder(int randomizer)
@@ -42,7 +57,10 @@ namespace KindlesGOL
             return randSeeder.Next(10000, 100000);
         }
 
-        private int seed = Properties.Settings.Default.seedSet;
+        // Seed for the randomize universe functions
+        private int seed = Properties.Settings.Default.seedSetting;
+
+        // Initializes the program and timer
 
         #region Initialization and Timer variables
 
@@ -51,34 +69,40 @@ namespace KindlesGOL
             InitializeComponent();
 
             // Check the default view options
-            finiteToolStripMenuItem.Checked = true;
-            finiteToolStripMenuItem.Enabled = false;
-            gridToolStripMenuItem.Checked = true;
-            neighborCountToolStripMenuItem.Checked = true;
+            if (neighborCountType == true)
+            {
+                finiteToolStripMenuItem.Checked = true;
+                finiteContextStripMenuItem.Checked = true;
+                finiteToolStripMenuItem.Enabled = false;
+                finiteContextStripMenuItem.Enabled = false;
+            }
+            if (neighborCountType == false)
+            {
+                toroidalToolStripMenuItem.Checked = true;
+                toroidalContextStripMenuItem.Checked = true;
+                toroidalToolStripMenuItem.Enabled = false;
+                toroidalContextStripMenuItem.Enabled = false;
+            }
+            if (viewGrid == true)
+            {
+                gridToolStripMenuItem.Checked = true;
+                gridContextMenuItem.Checked = true;
+            }
+            if (viewNeighborCountEnabled == true)
+            {
+                neighborCountToolStripMenuItem.Checked = true;
+                neighborContextMenuItem.Checked = true;
+            }
 
             // Setup the timer
-            timer.Interval = Properties.Settings.Default.interval; // milliseconds
+            timer.Interval = Properties.Settings.Default.intervalSetting; // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer paused
 
-            //
             // Read Settings on initialization
-            //
-            uniSizeX = Properties.Settings.Default.universeSizeX;
-            uniSizeY = Properties.Settings.Default.universeSizeY;
-            if (uniSizeX > 1000)
-            {
-                uniSizeX = 1000;
-            }
-            if (uniSizeY > 1000)
-            {
-                uniSizeY = 1000;
-            }
-            cellColor = Properties.Settings.Default.cellColors;
-            gridColor = Properties.Settings.Default.gridColors;
-            //
-            // End of Read Settings
-            //
+            cellColor = Properties.Settings.Default.cellColorSetting;
+            gridColor = Properties.Settings.Default.gridColorSetting;
+            backColor = Properties.Settings.Default.backColorSetting;
 
             // Initialize numbers on the status bar
             PrintStatusBar();
@@ -92,7 +116,9 @@ namespace KindlesGOL
 
         private void NextGeneration()
         {
+            // refreshest the scratchpad
             scratchPad = new bool[uniSizeX, uniSizeY];
+            // Sets the count of cells to 0 so it doesn't display a number that always grows
             alive = 0;
             // Iterate through the universe in the y, top to bottom
             for (int y = 0; y < universe.GetLength(0); y++)
@@ -113,7 +139,7 @@ namespace KindlesGOL
                         neighborsToCell = CountNeighborsToroidal(x, y);
                     }
 
-                    // Apply the rules
+                    // Apply the rules of GOL
                     if (universe[x, y] == true)
                     {
                         if (neighborsToCell == 2)
@@ -146,11 +172,12 @@ namespace KindlesGOL
                 }
             }
 
-            // Increment generation count
-            bool[,] temp2 = universe;
-            universe = scratchPad;
-            scratchPad = temp2;
+            // Copy the scratch pad onto the visible universe
+            bool[,] temp = this.universe;
+            this.universe = this.scratchPad;
+            this.scratchPad = temp;
 
+            // Increment generation count
             generations++;
             PrintStatusBar();
             graphicsPanel1.Invalidate();
@@ -158,12 +185,17 @@ namespace KindlesGOL
 
         #endregion Calculate the next generation of cells
 
+        // Prints the status bar at the bottom of the window
+
         #region Print Status Bar
 
         private void PrintStatusBar()
         {
+            // Update status strip counter for how many cells are alive
             this.aliveStripStatusLabel.Text = "Alive: " + alive;
+            // Update status strip display of the interval in milliseconds
             this.intervalStripStatusLabel.Text = "Interval: " + timer.Interval;
+            // Update status strip display of the seed for the randomizer
             this.seedStripStatusLabel.Text = "Seed: " + seed;
 
             // Update status strip generations
@@ -183,6 +215,7 @@ namespace KindlesGOL
 
         private void Timer_Tick(object sender, EventArgs e)
         {
+            // Upon the passing of each interval set in milliseconds, calls NextGeneration()
             NextGeneration();
         }
 
@@ -195,6 +228,9 @@ namespace KindlesGOL
             // Calculate the width and height of each cell in pixels
             // CELL WIDTH = WINDOW WIDTH / NUMBER OF CELLS IN X
             // CELL HEIGHT = WINDOW HEIGHT / NUMBER OF CELLS IN Y
+
+            // All the math is done by floats and casted back as ints, makes the grid prettier
+            // and harder to crash
 
             float cellWidth, cellHeight, windowWidth, WindowHeight, universeWidth, universeHeight;
             windowWidth = (float)graphicsPanel1.ClientSize.Width;
@@ -210,6 +246,9 @@ namespace KindlesGOL
 
             // A Brush for filling living cells interiors (color)
             Brush cellBrush = new SolidBrush(cellColor);
+
+            // A Brush for filling dead cells (background)
+            Brush deadBrush = new SolidBrush(backColor);
 
             // Font for filling neighbors with number for how many neighbors each cell has.
             Font font = new Font("Arial", 10f);
@@ -239,6 +278,10 @@ namespace KindlesGOL
                     {
                         e.Graphics.FillRectangle(cellBrush, cellRect);
                     }
+                    if (universe[x, y] == false)
+                    {
+                        e.Graphics.FillRectangle(deadBrush, cellRect);
+                    }
 
                     // Draw the number of neighbors for each cell
                     if (viewNeighborCountEnabled == true)
@@ -257,17 +300,23 @@ namespace KindlesGOL
                             neighborCountToolStripMenuItem.Enabled = false;
                         }
 
+                        // Gets the kind of count the user has chosen
+                        // (neighborCountType == true) = run as Finite
                         if (neighborCountType == true)
                         {
                             neighbors = CountNeighborsFinite(x, y);
                         }
+                        // (neighborCountType == false) = run as Toroidal
                         if (neighborCountType == false)
                         {
                             neighbors = CountNeighborsToroidal(x, y);
                         }
 
+                        // Logic behind printing the numbers for neighbors
+                        // Prevents displaying of 0
                         if (neighbors >= 1)
                         {
+                            // Colors the test as green or red for cells that are alive
                             if (universe[x, y])
                             {
                                 if (neighbors == 2 || neighbors == 3)
@@ -279,6 +328,7 @@ namespace KindlesGOL
                                     e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Red, cellRect, stringFormat);
                                 }
                             }
+                            // Prints for cells that are dead
                             else
                             {
                                 if (neighbors == 3)
@@ -294,6 +344,7 @@ namespace KindlesGOL
                     }
 
                     // Outline the cell with a pen
+                    // Checks if the user wants to see the grid or not
                     if (viewGrid == true)
                     {
                         e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
@@ -301,23 +352,29 @@ namespace KindlesGOL
                 }
             }
 
-            // Cleaning up pens and brushes
+            // Cleaning up custom created pens and brushes
             gridPen.Dispose();
             cellBrush.Dispose();
+            deadBrush.Dispose();
         }
 
         #endregion Paint the graphics panel
 
+        // Toroidal and Finite
+
         #region Count Neighbors
 
+        // Counts neighbors in the Finite style
         private int CountNeighborsFinite(int x, int y)
         {
             int count = 0;
             int xLen = universe.GetLength(0);
             int yLen = universe.GetLength(1);
 
+            // iterate aroud the cell by Y
             for (int yOffset = -1; yOffset <= 1; yOffset++)
             {
+                // iterate around the cell by X
                 for (int xOffset = -1; xOffset <= 1; xOffset++)
                 {
                     int xCheck = x + xOffset;
@@ -339,14 +396,17 @@ namespace KindlesGOL
             return count;
         }
 
+        // Counts neighbors in the Toroidal style
         private int CountNeighborsToroidal(int x, int y)
         {
             int count = 0;
             int xLen = universe.GetLength(0);
             int yLen = universe.GetLength(1);
 
+            // iterate aroud the cell by Y
             for (int yOffset = -1; yOffset <= 1; yOffset++)
             {
+                // iterate aroud the cell by X
                 for (int xOffset = -1; xOffset <= 1; xOffset++)
                 {
                     int xCheck = x + xOffset;
@@ -429,59 +489,24 @@ namespace KindlesGOL
 
         #endregion Update with mouse clicks in the graphics panel
 
+        // Contains all the buttons
+
         #region Buttons logic
-
-        #region Logic behind the start/stop mechanic
-
-        private void playStateButton(object sender, EventArgs e)
-        {
-            if (timer.Enabled == false)
-            {
-                this.timer.Start();
-                this.playState.Image = global::KindlesGOL.Properties.Resources.pauseB;
-                this.playState.ToolTipText = "Pause";
-                this.startStripMenuItem.Text = "Stop";
-                this.statusStripTextBox.Text = "Running . . . ";
-            }
-            else if (timer.Enabled == true)
-            {
-                this.timer.Stop();
-                this.playState.Image = global::KindlesGOL.Properties.Resources.playB;
-                this.playState.ToolTipText = "Play";
-                this.startStripMenuItem.Text = "Start";
-                this.statusStripTextBox.Text = "Paused";
-            }
-        }
-
-        #endregion Logic behind the start/stop mechanic
-
-        #region Logic behind Next Generation button
-
-        private void nextGenStateButton(object sender, EventArgs e)
-        {
-            NextGeneration();
-        }
-
-        #endregion Logic behind Next Generation button
-
-        #region Exit Program
-
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        #endregion Exit Program
 
         #region Click event for hitting NEW
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // sets all cells to dead
             universe = new bool[uniSizeX, uniSizeY];
             scratchPad = new bool[uniSizeX, uniSizeY];
+            // resets generation count
             generations = 0;
+            // resets alive count
             alive = 0;
+            // updates the status bar
             PrintStatusBar();
+            // starts timer and calls the start/stop button to ensure it is the right image and state
             timer.Start();
             playStateButton(sender, e);
             graphicsPanel1.Invalidate();
@@ -489,105 +514,184 @@ namespace KindlesGOL
 
         #endregion Click event for hitting NEW
 
-        #region Randomize Universe
+        #region Save Button
 
-        private void randomizeFromInputedSeedToolStripMenuItem_Click(object sender, EventArgs e)
+        private void saveToolStripButton_Click(object sender, EventArgs e)
         {
-            seedModalDiag seeder = new seedModalDiag();
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "All Files|*.*|Cells|*.cells";
+            dlg.FilterIndex = 2; dlg.DefaultExt = "cells";
 
-            if (DialogResult.OK == seeder.ShowDialog())
+            if (DialogResult.OK == dlg.ShowDialog())
             {
-                seed = seeder.inputNum;
-                universe = new bool[uniSizeX, uniSizeY];
-                Random random = new Random(seed);
+                StreamWriter writer = new StreamWriter(dlg.FileName);
 
-                for (int y = 0; y < universe.GetLength(1); y++)
+                // Prefix all comment strings with an exclamation point.
+                writer.WriteLine("!This is the Game of Life!");
+                writer.WriteLine("!The universe is " + uniSizeX + "x" + uniSizeY + " Cells big.");
+                writer.WriteLine("!Generations passed for this universe: " + generations);
+                writer.WriteLine("!");
+
+                // Iterate through the universe one row at a time.
+                for (int y = 0; y < universe.GetLength(0); y++)
                 {
-                    for (int x = 0; x < universe.GetLength(0); x++)
+                    // Create a string to represent the current row.
+                    StringBuilder currentRow = new StringBuilder();
+
+                    // Iterate through the current row one cell at a time.
+                    for (int x = 0; x < universe.GetLength(1); x++)
                     {
-                        if (random.Next(0, 3) == 0)
+                        // If the universe[x,y] is alive then append 'O' (capital O)
+                        // to the row string.
+                        if (universe[x, y] == true)
                         {
-                            universe[x, y] = true;
-                            alive++;
+                            currentRow.Append('O');
+                        }
+                        // Else if the universe[x,y] is dead then append '.' (period)
+                        // to the row string.
+                        else
+                        {
+                            currentRow.Append('.');
                         }
                     }
+                    writer.WriteLine(currentRow);
                 }
-                PrintStatusBar();
-                graphicsPanel1.Invalidate();
+                writer.Close();
             }
         }
 
-        private void randomizeFromCurSeedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            universe = new bool[uniSizeX, uniSizeY];
-            Random random = new Random(seed);
+        #endregion Save Button
 
-            for (int y = 0; y < universe.GetLength(1); y++)
+        #region Open Button
+
+        private void openToolStripButton_Click(object sender, EventArgs e)
+        {
+            alive = 0;
+            generations = 0;
+            // starts timer and calls the start/stop button to ensure it is the right image and state
+            timer.Start();
+            playStateButton(sender, e);
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "All Files|*.*|Cells|*.cells";
+            dlg.FilterIndex = 2;
+
+            if (DialogResult.OK == dlg.ShowDialog())
             {
-                for (int x = 0; x < universe.GetLength(0); x++)
+                StreamReader reader = new StreamReader(dlg.FileName);
+
+                // Create a couple variables to calculate the width and height
+                // of the data in the file.
+                int maxWidth = 0;
+                int maxHeight = 0;
+
+                // Iterate through the file once to get its size.
+                while (!reader.EndOfStream)
                 {
-                    if (random.Next(0, 3) == 0)
+                    // Read one row at a time.
+                    string row = reader.ReadLine();
+
+                    // If the row begins with '!' then it is a comment
+                    // and should be ignored.
+
+                    if (!(row[0] == '!'))
                     {
-                        universe[x, y] = true;
-                        alive++;
+                        // If the row is not a comment then it is a row of cells.
+                        // Increment the maxHeight variable for each row read.
+                        maxHeight++;
+                        // Get the length of the current row string
+                        // and adjust the maxWidth variable if necessary.
+                        if (row.Length > maxWidth)
+                            maxWidth = row.Length;
                     }
                 }
+
+                // Resize the current universe and scratchPad
+                // to the width and height of the file calculated above.
+                uniSizeX = maxWidth;
+                uniSizeY = maxHeight;
+                universe = new bool[uniSizeX, uniSizeY];
+                scratchPad = new bool[uniSizeX, uniSizeY];
+
+                // Reset the file pointer back to the beginning of the file.
+                reader.BaseStream.Seek(0, SeekOrigin.Begin);
+
+                // Iterate through the file again, this time reading in the cells.
+                int curY = 0;
+                while (!reader.EndOfStream)
+                {
+                    // Read one row at a time.
+                    string row = reader.ReadLine();
+
+                    // If the row begins with '!' then
+                    // it is a comment and should be ignored.
+                    if (!(row[0] == '!')) 
+                    {
+                        // If the row is not a comment then 
+                        // it is a row of cells and needs to be iterated through.
+                        for (int xPos = 0; xPos < row.Length; xPos++)
+                        {
+                            if (row[xPos] == 'O')
+                            {
+                                universe[xPos, curY] = true;
+                                scratchPad[xPos, curY] = true;
+                            }
+                        }
+                        curY++;
+                    }
+                }
+
+                // Close the file.
+                reader.Close();
             }
             PrintStatusBar();
             graphicsPanel1.Invalidate();
         }
 
-        private void randomizeFromTimeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            seed = ((int)DateTime.Now.Ticks & 0x0000FFFF);
-            universe = new bool[uniSizeX, uniSizeY];
-            Random random = new Random(seed);
+        #endregion Open Button
 
-            for (int y = 0; y < universe.GetLength(1); y++)
-            {
-                for (int x = 0; x < universe.GetLength(0); x++)
-                {
-                    if (random.Next(0, 3) == 0)
-                    {
-                        universe[x, y] = true;
-                        alive++;
-                    }
-                }
-            }
-            PrintStatusBar();
-            graphicsPanel1.Invalidate();
-        }
-
-        #endregion Randomize Universe
-
-        #region Toggle view of neighborcount
+        #region Toggle view of neighborCount
 
         private void viewNeighborCountToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // Checks what the user has inputed to display the count in each cell or not
             if (viewNeighborCountEnabled == true)
             {
                 viewNeighborCountEnabled = false;
+                // Updates the check states when clicked
+                neighborCountToolStripMenuItem.Checked = false;
+                neighborContextMenuItem.Checked = false;
             }
             else
             {
                 viewNeighborCountEnabled = true;
+                // Updates the check states when clicked
+                neighborCountToolStripMenuItem.Checked = true;
+                neighborContextMenuItem.Checked = true;
             }
             graphicsPanel1.Invalidate();
         }
 
-        #endregion Toggle view of neighborcount
+        #endregion Toggle view of neighborCount
 
         #region Toggle view of the grid
 
         private void viewGridToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // Checks what the user has inputed to display the grid or not
             if (viewGrid == true)
             {
                 viewGrid = false;
+                // Updates the check states when clicked
+                gridToolStripMenuItem.Checked = false;
+                gridContextMenuItem.Checked = false;
+
             }
             else
             {
                 viewGrid = true;
+                // Updates the check states when clicked
+                gridToolStripMenuItem.Checked = true;
+                gridContextMenuItem.Checked = true;
             }
             graphicsPanel1.Invalidate();
         }
@@ -596,50 +700,167 @@ namespace KindlesGOL
 
         #region Pick neighbor count type
 
+        // This will run when user hits to display as Finite
         private void viewFiniteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // Checks to make sure you don't run the button if it is already picked,
+            // big for what the user picks and saves for settings
             if (neighborCountType == false)
             {
+                // sets to true for Finite
                 neighborCountType = true;
+                // Unchecks the Toroidal option
                 toroidalToolStripMenuItem.Checked = false;
+                toroidalContextStripMenuItem.Checked = false;
+                // Enables the Toroidal Button
                 toroidalToolStripMenuItem.Enabled = true;
+                toroidalContextStripMenuItem.Enabled = true;
+                // Disables the Finite Button (prevents picking the option twice)
                 finiteToolStripMenuItem.Enabled = false;
+                finiteContextStripMenuItem.Enabled = false;
                 graphicsPanel1.Invalidate();
             }
         }
 
+        // This will run when user hits to display as Toroidal
         private void viewToroidalToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // Checks to make sure you don't run the button if it is already picked,
+            // big for what the user picks and saves for settings
             if (neighborCountType == true)
             {
+                // sets to false for Toroidal
                 neighborCountType = false;
+                // Unchecks Finite option
                 finiteToolStripMenuItem.Checked = false;
+                finiteContextStripMenuItem.Checked = false;
+                // Enables the Finite Button
                 finiteToolStripMenuItem.Enabled = true;
+                finiteContextStripMenuItem.Enabled = true;
+                // Disables the Toroidal Button (prevents picking the option twice)
                 toroidalToolStripMenuItem.Enabled = false;
+                toroidalContextStripMenuItem.Enabled = false;
                 graphicsPanel1.Invalidate();
             }
         }
 
         #endregion Pick neighbor count type
 
+        #region Randomize Universe
+
+        // Randomize by user inputted seed
+        private void randomizeFromInputedSeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Custom modal window
+            seedModalDiag seeder = new seedModalDiag();
+
+            if (DialogResult.OK == seeder.ShowDialog())
+            {
+                seed = seeder.inputNum;
+                // sets the universe fresh to prevent weirdness
+                universe = new bool[uniSizeX, uniSizeY];
+                Random random = new Random(seed);
+
+                // iterate through the universe by X and Y
+                for (int y = 0; y < universe.GetLength(1); y++)
+                {
+                    for (int x = 0; x < universe.GetLength(0); x++)
+                    {
+                        // if the number that is generated is 0 then set cell to alive
+                        // this is to generate a ratio of cells alive by 1/4
+                        if (random.Next(0, 3) == 0)
+                        {
+                            universe[x, y] = true;
+                            alive++;
+                        }
+                    }
+                }
+                // update status bar
+                PrintStatusBar();
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void randomizeFromCurSeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // sets the universe fresh to prevent weirdness
+            universe = new bool[uniSizeX, uniSizeY];
+            Random random = new Random(seed);
+
+            // iterate through the universe by X and Y
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    // if the number that is generated is 0 then set cell to alive
+                    // this is to generate a ratio of cells alive by 1/4
+                    if (random.Next(0, 3) == 0)
+                    {
+                        universe[x, y] = true;
+                        alive++;
+                    }
+                }
+            }
+            // update status bar
+            PrintStatusBar();
+            graphicsPanel1.Invalidate();
+        }
+
+        private void randomizeFromTimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // grabs the seed for the randomizer from the system clock
+            seed = ((int)DateTime.Now.Ticks & 0x0000FFFF);
+            // sets the universe fresh to prevent weirdness
+            universe = new bool[uniSizeX, uniSizeY];
+            Random random = new Random(seed);
+
+            // iterate through the universe by X and Y
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    // if the number that is generated is 0 then set cell to alive
+                    // this is to generate a ratio of cells alive by 1/4
+                    if (random.Next(0, 3) == 0)
+                    {
+                        universe[x, y] = true;
+                        alive++;
+                    }
+                }
+            }
+            // update status bar
+            PrintStatusBar();
+            graphicsPanel1.Invalidate();
+        }
+
+        #endregion Randomize Universe
+
         #region Universe Options
 
         private void universeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // Runs custom modal window
             uniOptions options = new uniOptions();
 
             if (DialogResult.OK == options.ShowDialog())
             {
+                // updates the interval for use and display
                 timer.Interval = options.inputInterval;
                 intervalChoice = options.inputInterval;
+                // updates the size of the universe
                 uniSizeX = options.inputWidth;
                 uniSizeY = options.inputHeight;
 
+                // generates new universe to prevent odd crashes when making the universe smaller
                 universe = new bool[uniSizeX, uniSizeY];
                 scratchPad = new bool[uniSizeX, uniSizeY];
+                // resets generation count
                 generations = 0;
+                // resets alive count
                 alive = 0;
+                // updates the status bar
                 PrintStatusBar();
+                // starts timer and calls the start/stop button to ensure it is the right image and state
                 timer.Start();
                 playStateButton(sender, e);
                 graphicsPanel1.Invalidate();
@@ -648,26 +869,11 @@ namespace KindlesGOL
 
         #endregion Universe Options
 
-        #region Cell Color
-
-        private void cellColorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ColorDialog back = new ColorDialog();
-            back.Color = cellColor;
-
-            if (DialogResult.OK == back.ShowDialog())
-            {
-                cellColor = back.Color;
-                graphicsPanel1.Invalidate();
-            }
-        }
-
-        #endregion Cell Color
-
         #region Grid Color
 
         private void gridColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // Runs the color modal window to change the color of the grid
             ColorDialog grid = new ColorDialog();
             grid.Color = gridColor;
 
@@ -680,6 +886,39 @@ namespace KindlesGOL
 
         #endregion Grid Color
 
+        #region Cell Color
+
+        private void cellColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Runs the color modal window to change the color of the living cells
+            ColorDialog alive = new ColorDialog();
+            alive.Color = cellColor;
+
+            if (DialogResult.OK == alive.ShowDialog())
+            {
+                cellColor = alive.Color;
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        #endregion Cell Color
+
+        #region Background Color
+
+        private void backgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dead = new ColorDialog();
+            dead.Color = backColor;
+
+            if (DialogResult.OK == dead.ShowDialog())
+            {
+                backColor = dead.Color;
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        #endregion Background Color
+
         #region Reset settings
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
@@ -687,24 +926,40 @@ namespace KindlesGOL
             Properties.Settings.Default.Reset();
 
             // Read Settings
-            uniSizeX = Properties.Settings.Default.universeSizeX;
-            uniSizeY = Properties.Settings.Default.universeSizeY;
-            seed = Properties.Settings.Default.seedSet;
-            cellColor = Properties.Settings.Default.cellColors;
-            gridColor = Properties.Settings.Default.gridColors;
+            uniSizeX = Properties.Settings.Default.universeSizeXSetting;
+            uniSizeY = Properties.Settings.Default.universeSizeYSetting;
+            seed = Properties.Settings.Default.seedSetting;
+            gridColor = Properties.Settings.Default.gridColorSetting;
+            cellColor = Properties.Settings.Default.cellColorSetting;
+            backColor = Properties.Settings.Default.backColorSetting;
             viewNeighborCountEnabled = Properties.Settings.Default.neighborCountEnabledSetting;
-            neighborCountType = Properties.Settings.Default.neighborCountTypeSetting;
-            viewGrid = Properties.Settings.Default.viewGridSetting;
-            intervalChoice = Properties.Settings.Default.interval;
+            // Updates the button for view neighbor type
+            finiteToolStripMenuItem.Enabled = false;
+            finiteContextStripMenuItem.Enabled = false;
+            finiteToolStripMenuItem.Checked = true;
+            finiteContextStripMenuItem.Checked = true;
+            toroidalToolStripMenuItem.Enabled = true;
+            toroidalContextStripMenuItem.Enabled = true;
+            toroidalToolStripMenuItem.Checked = false;
+            toroidalContextStripMenuItem.Checked = false;
 
-            // Prevent crash by reloading world
+            viewGrid = Properties.Settings.Default.viewGridSetting;
+            intervalChoice = Properties.Settings.Default.intervalSetting;
+
+            // generates new universe to prevent odd crashes when making the universe smaller
             universe = new bool[uniSizeX, uniSizeY];
             scratchPad = new bool[uniSizeX, uniSizeY];
+            neighborCountType = Properties.Settings.Default.neighborCountTypeSetting;
+            // resets generation count
             generations = 0;
+            // resets alive count
             alive = 0;
+            // updates the status bar
             PrintStatusBar();
+            // starts timer and calls the start/stop button to ensure it is the right image and state
             timer.Start();
             playStateButton(sender, e);
+
             graphicsPanel1.Invalidate();
         }
 
@@ -717,41 +972,144 @@ namespace KindlesGOL
             Properties.Settings.Default.Reload();
 
             // Read Settings
-            uniSizeX = Properties.Settings.Default.universeSizeX;
-            uniSizeY = Properties.Settings.Default.universeSizeY;
-            seed = Properties.Settings.Default.seedSet;
-            cellColor = Properties.Settings.Default.cellColors;
-            gridColor = Properties.Settings.Default.gridColors;
+            uniSizeX = Properties.Settings.Default.universeSizeXSetting;
+            uniSizeY = Properties.Settings.Default.universeSizeYSetting;
+            seed = Properties.Settings.Default.seedSetting;
+            gridColor = Properties.Settings.Default.gridColorSetting;
+            cellColor = Properties.Settings.Default.cellColorSetting;
+            backColor = Properties.Settings.Default.backColorSetting;
             viewNeighborCountEnabled = Properties.Settings.Default.neighborCountEnabledSetting;
             neighborCountType = Properties.Settings.Default.neighborCountTypeSetting;
             viewGrid = Properties.Settings.Default.viewGridSetting;
-            intervalChoice = Properties.Settings.Default.interval;
+            intervalChoice = Properties.Settings.Default.intervalSetting;
 
-            // Prevent crash by reloading world
+            // generates new universe to prevent odd crashes when making the universe smaller
             universe = new bool[uniSizeX, uniSizeY];
             scratchPad = new bool[uniSizeX, uniSizeY];
+            // resets generation count
             generations = 0;
+            // resets alive count
             alive = 0;
+            // updates the status bar
             PrintStatusBar();
+            // starts timer and calls the start/stop button to ensure it is the right image and state
             timer.Start();
             playStateButton(sender, e);
+
+            // Fun stuff for checking view neighbor type
+            if (neighborCountType == true)
+            {
+                finiteToolStripMenuItem.Enabled = false;
+                finiteContextStripMenuItem.Enabled = false;
+                finiteToolStripMenuItem.Checked = true;
+                finiteContextStripMenuItem.Checked = true;
+                toroidalToolStripMenuItem.Enabled = true;
+                toroidalContextStripMenuItem.Enabled = true;
+                toroidalToolStripMenuItem.Checked = false;
+                toroidalContextStripMenuItem.Checked = false;
+            }
+            if (neighborCountType == false)
+            {
+                finiteToolStripMenuItem.Enabled = true;
+                finiteContextStripMenuItem.Enabled = true;
+                finiteToolStripMenuItem.Checked = false;
+                finiteContextStripMenuItem.Checked = false;
+                toroidalToolStripMenuItem.Enabled = false;
+                toroidalContextStripMenuItem.Enabled = false;
+                toroidalToolStripMenuItem.Checked = true;
+                toroidalContextStripMenuItem.Checked = true;
+            }
+
             graphicsPanel1.Invalidate();
         }
 
         #endregion Reload settings
 
+        #region Start/Stop button click
+
+        private void playStateButton(object sender, EventArgs e)
+        {
+            // Checks to see if the timer is enabled or not
+            // the check swaps the image and function of the button
+            if (timer.Enabled == false)
+            {
+                this.timer.Start();
+                // Changes image of button
+                this.playState.Image = global::KindlesGOL.Properties.Resources.pauseB;
+                // updates hover text of the button
+                this.playState.ToolTipText = "Pause";
+                // updates "Run" drop menu item
+                this.startStripMenuItem.Text = "Pause";
+                // Updates text box in top right of program
+                this.statusStripTextBox.Text = "Running . . . ";
+            }
+            else if (timer.Enabled == true)
+            {
+                this.timer.Stop();
+                // Changes image of button
+                this.playState.Image = global::KindlesGOL.Properties.Resources.playB;
+                // updates hover text of the button
+                this.playState.ToolTipText = "Play";
+                // updates "Run" drop menu item
+                this.startStripMenuItem.Text = "Start";
+                // Updates text box in top right of program
+                this.statusStripTextBox.Text = "Paused";
+            }
+        }
+
+        #endregion Start/Stop button click
+
+        #region Next Generation button click
+
+        private void nextGenStateButton(object sender, EventArgs e)
+        {
+            // Calls NextGeneration on click
+            NextGeneration();
+        }
+
+        #endregion Next Generation button click
+
+        #region Jump to x Generation
+
+        private void RunToGenMenuItem_Click(object sender, EventArgs e)
+        {
+            RunToDiag runs = new RunToDiag();
+            if (DialogResult.OK == runs.ShowDialog())
+            {
+                // how many generations to run
+                int runningGens = runs.inputGensToRun;
+                for (int i = 0; i < runningGens; i++)
+                {
+                    NextGeneration();
+                }
+            }
+        }
+
+        #endregion Jump to x Generation
+
+        #region Exit Program
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        #endregion Exit Program
+
         #endregion Buttons logic
 
-        #region Settings Logic
+        #region Saves options picked by the user
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Properties.Settings.Default.universeSizeX = uniSizeX;
-            Properties.Settings.Default.universeSizeY = uniSizeY;
-            Properties.Settings.Default.interval = intervalChoice;
-            Properties.Settings.Default.seedSet = seed;
-            Properties.Settings.Default.cellColors = cellColor;
-            Properties.Settings.Default.gridColors = gridColor;
+            // Saves the settings when the program fully closes
+            Properties.Settings.Default.universeSizeXSetting = uniSizeX;
+            Properties.Settings.Default.universeSizeYSetting = uniSizeY;
+            Properties.Settings.Default.intervalSetting = intervalChoice;
+            Properties.Settings.Default.seedSetting = seed;
+            Properties.Settings.Default.gridColorSetting = gridColor;
+            Properties.Settings.Default.cellColorSetting = cellColor;
+            Properties.Settings.Default.backColorSetting = backColor;
             Properties.Settings.Default.neighborCountTypeSetting = neighborCountType;
             Properties.Settings.Default.neighborCountEnabledSetting = viewNeighborCountEnabled;
             Properties.Settings.Default.viewGridSetting = viewGrid;
@@ -759,6 +1117,6 @@ namespace KindlesGOL
             Properties.Settings.Default.Save();
         }
 
-        #endregion Settings Logic
+        #endregion Saves options picked by the user
     }
 }

@@ -26,72 +26,72 @@ namespace KindlesGOL.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("75")]
-        public int universeSizeX {
+        public int universeSizeXSetting {
             get {
-                return ((int)(this["universeSizeX"]));
+                return ((int)(this["universeSizeXSetting"]));
             }
             set {
-                this["universeSizeX"] = value;
+                this["universeSizeXSetting"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("75")]
-        public int universeSizeY {
+        public int universeSizeYSetting {
             get {
-                return ((int)(this["universeSizeY"]));
+                return ((int)(this["universeSizeYSetting"]));
             }
             set {
-                this["universeSizeY"] = value;
+                this["universeSizeYSetting"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("32")]
-        public int interval {
+        public int intervalSetting {
             get {
-                return ((int)(this["interval"]));
+                return ((int)(this["intervalSetting"]));
             }
             set {
-                this["interval"] = value;
+                this["intervalSetting"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("31415")]
-        public int seedSet {
+        public int seedSetting {
             get {
-                return ((int)(this["seedSet"]));
+                return ((int)(this["seedSetting"]));
             }
             set {
-                this["seedSet"] = value;
+                this["seedSetting"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("LightGray")]
-        public global::System.Drawing.Color cellColors {
+        public global::System.Drawing.Color cellColorSetting {
             get {
-                return ((global::System.Drawing.Color)(this["cellColors"]));
+                return ((global::System.Drawing.Color)(this["cellColorSetting"]));
             }
             set {
-                this["cellColors"] = value;
+                this["cellColorSetting"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Black")]
-        public global::System.Drawing.Color gridColors {
+        public global::System.Drawing.Color gridColorSetting {
             get {
-                return ((global::System.Drawing.Color)(this["gridColors"]));
+                return ((global::System.Drawing.Color)(this["gridColorSetting"]));
             }
             set {
-                this["gridColors"] = value;
+                this["gridColorSetting"] = value;
             }
         }
         
@@ -128,6 +128,18 @@ namespace KindlesGOL.Properties {
             }
             set {
                 this["viewGridSetting"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        public global::System.Drawing.Color backColorSetting {
+            get {
+                return ((global::System.Drawing.Color)(this["backColorSetting"]));
+            }
+            set {
+                this["backColorSetting"] = value;
             }
         }
     }

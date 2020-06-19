@@ -38,7 +38,7 @@
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(121, 38);
+            this.buttonCancel.Location = new System.Drawing.Point(118, 56);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(100, 25);
             this.buttonCancel.TabIndex = 1;
@@ -48,7 +48,7 @@
             // buttonOK
             // 
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(12, 38);
+            this.buttonOK.Location = new System.Drawing.Point(12, 56);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(100, 25);
             this.buttonOK.TabIndex = 2;
@@ -67,6 +67,7 @@
             // 
             // seedIntInput
             // 
+            this.seedIntInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.seedIntInput.Location = new System.Drawing.Point(15, 12);
             this.seedIntInput.Maximum = new decimal(new int[] {
             50000,
@@ -74,7 +75,7 @@
             0,
             0});
             this.seedIntInput.Name = "seedIntInput";
-            this.seedIntInput.Size = new System.Drawing.Size(125, 20);
+            this.seedIntInput.Size = new System.Drawing.Size(125, 24);
             this.seedIntInput.TabIndex = 5;
             this.seedIntInput.Value = new decimal(new int[] {
             14620,
@@ -88,7 +89,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(228, 71);
+            this.ClientSize = new System.Drawing.Size(229, 90);
             this.Controls.Add(this.seedIntInput);
             this.Controls.Add(this.buttonRandomize);
             this.Controls.Add(this.buttonOK);

@@ -2,22 +2,22 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="KindlesGOL.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="universeSizeX" Type="System.Int32" Scope="User">
+    <Setting Name="universeSizeXSetting" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">75</Value>
     </Setting>
-    <Setting Name="universeSizeY" Type="System.Int32" Scope="User">
+    <Setting Name="universeSizeYSetting" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">75</Value>
     </Setting>
-    <Setting Name="interval" Type="System.Int32" Scope="User">
+    <Setting Name="intervalSetting" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">32</Value>
     </Setting>
-    <Setting Name="seedSet" Type="System.Int32" Scope="User">
+    <Setting Name="seedSetting" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">31415</Value>
     </Setting>
-    <Setting Name="cellColors" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="cellColorSetting" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">LightGray</Value>
     </Setting>
-    <Setting Name="gridColors" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="gridColorSetting" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Black</Value>
     </Setting>
     <Setting Name="neighborCountTypeSetting" Type="System.Boolean" Scope="User">
@@ -28,6 +28,9 @@
     </Setting>
     <Setting Name="viewGridSetting" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="backColorSetting" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">White</Value>
     </Setting>
   </Settings>
 </SettingsFile>

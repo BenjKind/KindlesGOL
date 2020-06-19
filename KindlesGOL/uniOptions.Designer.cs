@@ -45,7 +45,7 @@
             // buttonOK
             // 
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(73, 147);
+            this.buttonOK.Location = new System.Drawing.Point(68, 147);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(100, 25);
             this.buttonOK.TabIndex = 0;
@@ -65,7 +65,8 @@
             // 
             // timerInterInput
             // 
-            this.timerInterInput.Location = new System.Drawing.Point(192, 12);
+            this.timerInterInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.timerInterInput.Location = new System.Drawing.Point(192, 8);
             this.timerInterInput.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -77,7 +78,7 @@
             0,
             0});
             this.timerInterInput.Name = "timerInterInput";
-            this.timerInterInput.Size = new System.Drawing.Size(120, 20);
+            this.timerInterInput.Size = new System.Drawing.Size(120, 24);
             this.timerInterInput.TabIndex = 2;
             this.timerInterInput.Value = new decimal(new int[] {
             32,
@@ -87,12 +88,13 @@
             // 
             // uniWidthInput
             // 
+            this.uniWidthInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.uniWidthInput.Increment = new decimal(new int[] {
             10,
             0,
             0,
             0});
-            this.uniWidthInput.Location = new System.Drawing.Point(192, 85);
+            this.uniWidthInput.Location = new System.Drawing.Point(192, 81);
             this.uniWidthInput.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -104,7 +106,7 @@
             0,
             0});
             this.uniWidthInput.Name = "uniWidthInput";
-            this.uniWidthInput.Size = new System.Drawing.Size(120, 20);
+            this.uniWidthInput.Size = new System.Drawing.Size(120, 24);
             this.uniWidthInput.TabIndex = 3;
             this.uniWidthInput.Value = new decimal(new int[] {
             75,
@@ -114,6 +116,7 @@
             // 
             // uniHeightInput
             // 
+            this.uniHeightInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.uniHeightInput.Increment = new decimal(new int[] {
             10,
             0,
@@ -131,7 +134,7 @@
             0,
             0});
             this.uniHeightInput.Name = "uniHeightInput";
-            this.uniHeightInput.Size = new System.Drawing.Size(120, 20);
+            this.uniHeightInput.Size = new System.Drawing.Size(120, 24);
             this.uniHeightInput.TabIndex = 4;
             this.uniHeightInput.Value = new decimal(new int[] {
             75,
@@ -163,7 +166,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(139, 111);
+            this.label3.Location = new System.Drawing.Point(139, 115);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(47, 16);
             this.label3.TabIndex = 7;
@@ -198,6 +201,7 @@
             this.MinimizeBox = false;
             this.Name = "uniOptions";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Universe Options";
             ((System.ComponentModel.ISupportInitialize)(this.timerInterInput)).EndInit();

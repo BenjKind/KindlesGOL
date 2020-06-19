@@ -19,18 +19,21 @@ namespace KindlesGOL
 
         public int inputInterval
         {
+            // Sets the interval to the number the user inputs
             get { return (int)timerInterInput.Value; }
             set { timerInterInput.Value = value; }
         }
 
         public int inputWidth
         {
+            // Sets the universe width(Y) to the number the user inputs
             get { return (int)uniWidthInput.Value; }
             set { uniWidthInput.Value = value; }
         }
 
         public int inputHeight
         {
+            // Sets the universe height(X) to the number the user inputs
             get { return (int)uniHeightInput.Value; }
             set { uniHeightInput.Value = value; }
         }
