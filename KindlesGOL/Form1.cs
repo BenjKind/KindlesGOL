@@ -23,6 +23,7 @@ namespace KindlesGOL
 
         // Drawing colors
         private Color gridColor = Color.Black;
+
         private Color cellColor = Color.LightGray;
         private Color backColor = Color.White;
 
@@ -49,13 +50,6 @@ namespace KindlesGOL
 
         // This is the interval that the timer will go by in miliseconds, will be applied to the timer in Form1()
         private int intervalChoice = Properties.Settings.Default.intervalSetting;
-
-        // Default Seed Generation
-        private static int randomSeeder(int randomizer)
-        {
-            Random randSeeder = new Random(randomizer);
-            return randSeeder.Next(10000, 100000);
-        }
 
         // Seed for the randomize universe functions
         private int seed = Properties.Settings.Default.seedSetting;
@@ -489,9 +483,7 @@ namespace KindlesGOL
 
         #endregion Update with mouse clicks in the graphics panel
 
-        // Contains all the buttons
-
-        #region Buttons logic
+        // Below are all the buttons
 
         #region Click event for hitting NEW
 
@@ -619,14 +611,13 @@ namespace KindlesGOL
                 int curY = 0;
                 while (!reader.EndOfStream)
                 {
-                    // Read one row at a time.
                     string row = reader.ReadLine();
 
                     // If the row begins with '!' then
                     // it is a comment and should be ignored.
-                    if (!(row[0] == '!')) 
+                    if (!(row[0] == '!'))
                     {
-                        // If the row is not a comment then 
+                        // If the row is not a comment then
                         // it is a row of cells and needs to be iterated through.
                         for (int xPos = 0; xPos < row.Length; xPos++)
                         {
@@ -634,6 +625,7 @@ namespace KindlesGOL
                             {
                                 universe[xPos, curY] = true;
                                 scratchPad[xPos, curY] = true;
+                                alive++;
                             }
                         }
                         curY++;
@@ -648,6 +640,86 @@ namespace KindlesGOL
         }
 
         #endregion Open Button
+
+        #region Import Button
+
+        // Will import the file loaded, but not adjust the universe size or clear/reset the universe
+        private void importToolStripButton_Click(object sender, EventArgs e)
+        {
+            // starts timer and calls the start/stop button to ensure it is the right image and state
+            timer.Start();
+            playStateButton(sender, e);
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "All Files|*.*|Cells|*.cells";
+            dlg.FilterIndex = 2;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                StreamReader reader = new StreamReader(dlg.FileName);
+
+                // Create a couple variables to calculate the width and height
+                // of the data in the file.
+                int maxWidth = 0;
+                int maxHeight = 0;
+
+                // Iterate through the file once to get its size.
+                while (!reader.EndOfStream)
+                {
+                    // Read one row at a time.
+                    string row = reader.ReadLine();
+
+                    // If the row begins with '!' then it is a comment
+                    // and should be ignored.
+
+                    if (!(row[0] == '!'))
+                    {
+                        // If the row is not a comment then it is a row of cells.
+                        // Increment the maxHeight variable for each row read.
+                        maxHeight++;
+                        // Get the length of the current row string
+                        // and adjust the maxWidth variable if necessary.
+                        if (row.Length > maxWidth)
+                            maxWidth = row.Length;
+                    }
+                }
+
+                // Reset the file pointer back to the beginning of the file.
+                reader.BaseStream.Seek(0, SeekOrigin.Begin);
+
+                // Iterate through the file again, this time reading in the cells.
+                int curY = 0;
+                while (!reader.EndOfStream)
+                {
+                    // Read one row at a time.
+                    string row = reader.ReadLine();
+
+                    // If the row begins with '!' then
+                    // it is a comment and should be ignored.
+                    if (!(row[0] == '!'))
+                    {
+                        // If the row is not a comment then
+                        // it is a row of cells and needs to be iterated through.
+                        for (int xPos = 0; xPos < row.Length; xPos++)
+                        {
+                            if (row[xPos] == 'O' && xPos < uniSizeX && curY < uniSizeY)
+                            {
+                                universe[xPos, curY] = true;
+                                scratchPad[xPos, curY] = true;
+                                alive++;
+                            }
+                        }
+                        curY++;
+                    }
+                }
+
+                // Close the file.
+                reader.Close();
+            }
+            PrintStatusBar();
+            graphicsPanel1.Invalidate();
+        }
+
+        #endregion Import Button
 
         #region Toggle view of neighborCount
 
@@ -684,7 +756,6 @@ namespace KindlesGOL
                 // Updates the check states when clicked
                 gridToolStripMenuItem.Checked = false;
                 gridContextMenuItem.Checked = false;
-
             }
             else
             {
@@ -753,6 +824,7 @@ namespace KindlesGOL
         {
             // Custom modal window
             seedModalDiag seeder = new seedModalDiag();
+            alive = 0;
 
             if (DialogResult.OK == seeder.ShowDialog())
             {
@@ -786,6 +858,7 @@ namespace KindlesGOL
             // sets the universe fresh to prevent weirdness
             universe = new bool[uniSizeX, uniSizeY];
             Random random = new Random(seed);
+            alive = 0;
 
             // iterate through the universe by X and Y
             for (int y = 0; y < universe.GetLength(1); y++)
@@ -813,6 +886,7 @@ namespace KindlesGOL
             // sets the universe fresh to prevent weirdness
             universe = new bool[uniSizeX, uniSizeY];
             Random random = new Random(seed);
+            alive = 0;
 
             // iterate through the universe by X and Y
             for (int y = 0; y < universe.GetLength(1); y++)
@@ -1096,7 +1170,7 @@ namespace KindlesGOL
 
         #endregion Exit Program
 
-        #endregion Buttons logic
+        // Below saves the settings upon close
 
         #region Saves options picked by the user
 

@@ -32,5 +32,8 @@
     <Setting Name="backColorSetting" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">White</Value>
     </Setting>
+    <Setting Name="viewHUDSetting" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

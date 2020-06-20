@@ -142,5 +142,17 @@ namespace KindlesGOL.Properties {
                 this["backColorSetting"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool viewHUDSetting {
+            get {
+                return ((bool)(this["viewHUDSetting"]));
+            }
+            set {
+                this["viewHUDSetting"] = value;
+            }
+        }
     }
 }

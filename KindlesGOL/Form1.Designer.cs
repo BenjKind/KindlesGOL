@@ -58,8 +58,9 @@ namespace KindlesGOL
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.universeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.cellColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cellColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.backgroundColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -76,19 +77,18 @@ namespace KindlesGOL
             this.intervalStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.aliveStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.seedStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.graphicsPanel1 = new KindlesGOL.GraphicsPanel();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.viewContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.colorContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cellColorContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gridColorContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.neighborContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.finiteContextStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toroidalContextStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.backgroundColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colorContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gridColorContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cellColorContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundColorToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.graphicsPanel1 = new KindlesGOL.GraphicsPanel();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -147,10 +147,10 @@ namespace KindlesGOL
             // 
             // importToolStripMenu
             // 
-            this.importToolStripMenu.Enabled = false;
             this.importToolStripMenu.Name = "importToolStripMenu";
             this.importToolStripMenu.Size = new System.Drawing.Size(180, 22);
             this.importToolStripMenu.Text = "&Import";
+            this.importToolStripMenu.Click += new System.EventHandler(this.importToolStripButton_Click);
             // 
             // toolStripSeparator
             // 
@@ -242,7 +242,7 @@ namespace KindlesGOL
             // 
             this.startStripMenuItem.Name = "startStripMenuItem";
             this.startStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.startStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.startStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.startStripMenuItem.Text = "Start";
             this.startStripMenuItem.Click += new System.EventHandler(this.playStateButton);
             // 
@@ -250,7 +250,7 @@ namespace KindlesGOL
             // 
             this.nextGenStripMenuItem.Name = "nextGenStripMenuItem";
             this.nextGenStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.nextGenStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nextGenStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.nextGenStripMenuItem.Text = "Next Generation";
             this.nextGenStripMenuItem.Click += new System.EventHandler(this.nextGenStateButton);
             // 
@@ -258,7 +258,7 @@ namespace KindlesGOL
             // 
             this.runToToolStripMenuItem.Name = "runToToolStripMenuItem";
             this.runToToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.runToToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.runToToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.runToToolStripMenuItem.Text = "Jump Over";
             this.runToToolStripMenuItem.Click += new System.EventHandler(this.RunToGenMenuItem_Click);
             // 
@@ -275,21 +275,21 @@ namespace KindlesGOL
             // newSeedStripMenuItem
             // 
             this.newSeedStripMenuItem.Name = "newSeedStripMenuItem";
-            this.newSeedStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newSeedStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.newSeedStripMenuItem.Text = "From Seed";
             this.newSeedStripMenuItem.Click += new System.EventHandler(this.randomizeFromInputedSeedToolStripMenuItem_Click);
             // 
             // curSeedStripMenuItem
             // 
             this.curSeedStripMenuItem.Name = "curSeedStripMenuItem";
-            this.curSeedStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.curSeedStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.curSeedStripMenuItem.Text = "From Current Seed";
             this.curSeedStripMenuItem.Click += new System.EventHandler(this.randomizeFromCurSeedToolStripMenuItem_Click);
             // 
             // timeSeedStripMenuItem
             // 
             this.timeSeedStripMenuItem.Name = "timeSeedStripMenuItem";
-            this.timeSeedStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.timeSeedStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.timeSeedStripMenuItem.Text = "From Time";
             this.timeSeedStripMenuItem.Click += new System.EventHandler(this.randomizeFromTimeToolStripMenuItem_Click);
             // 
@@ -320,6 +320,13 @@ namespace KindlesGOL
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
             // 
+            // gridColorToolStripMenuItem
+            // 
+            this.gridColorToolStripMenuItem.Name = "gridColorToolStripMenuItem";
+            this.gridColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gridColorToolStripMenuItem.Text = "Grid Color";
+            this.gridColorToolStripMenuItem.Click += new System.EventHandler(this.gridColorToolStripMenuItem_Click);
+            // 
             // cellColorToolStripMenuItem
             // 
             this.cellColorToolStripMenuItem.Name = "cellColorToolStripMenuItem";
@@ -327,12 +334,12 @@ namespace KindlesGOL
             this.cellColorToolStripMenuItem.Text = "Cell Color";
             this.cellColorToolStripMenuItem.Click += new System.EventHandler(this.cellColorToolStripMenuItem_Click);
             // 
-            // gridColorToolStripMenuItem
+            // backgroundColorToolStripMenuItem
             // 
-            this.gridColorToolStripMenuItem.Name = "gridColorToolStripMenuItem";
-            this.gridColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.gridColorToolStripMenuItem.Text = "Grid Color";
-            this.gridColorToolStripMenuItem.Click += new System.EventHandler(this.gridColorToolStripMenuItem_Click);
+            this.backgroundColorToolStripMenuItem.Name = "backgroundColorToolStripMenuItem";
+            this.backgroundColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.backgroundColorToolStripMenuItem.Text = "Background Color";
+            this.backgroundColorToolStripMenuItem.Click += new System.EventHandler(this.backgroundColorToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
@@ -487,6 +494,93 @@ namespace KindlesGOL
             this.seedStripStatusLabel.Size = new System.Drawing.Size(53, 17);
             this.seedStripStatusLabel.Text = "Seed: ";
             // 
+            // contextMenuStrip
+            // 
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewContextMenuItem,
+            this.colorContextMenuItem});
+            this.contextMenuStrip.Name = "contextMenuStrip";
+            this.contextMenuStrip.Size = new System.Drawing.Size(104, 48);
+            // 
+            // viewContextMenuItem
+            // 
+            this.viewContextMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.gridContextMenuItem,
+            this.neighborContextMenuItem,
+            this.toolStripSeparator5,
+            this.finiteContextStripMenuItem,
+            this.toroidalContextStripMenuItem});
+            this.viewContextMenuItem.Name = "viewContextMenuItem";
+            this.viewContextMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.viewContextMenuItem.Text = "&View";
+            // 
+            // gridContextMenuItem
+            // 
+            this.gridContextMenuItem.CheckOnClick = true;
+            this.gridContextMenuItem.Name = "gridContextMenuItem";
+            this.gridContextMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.gridContextMenuItem.Text = "&Grid";
+            this.gridContextMenuItem.Click += new System.EventHandler(this.viewGridToolStripMenuItem_Click);
+            // 
+            // neighborContextMenuItem
+            // 
+            this.neighborContextMenuItem.Name = "neighborContextMenuItem";
+            this.neighborContextMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.neighborContextMenuItem.Text = "&Neighbor Count";
+            this.neighborContextMenuItem.Click += new System.EventHandler(this.viewNeighborCountToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(157, 6);
+            // 
+            // finiteContextStripMenuItem
+            // 
+            this.finiteContextStripMenuItem.CheckOnClick = true;
+            this.finiteContextStripMenuItem.Name = "finiteContextStripMenuItem";
+            this.finiteContextStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.finiteContextStripMenuItem.Text = "Finite";
+            this.finiteContextStripMenuItem.Click += new System.EventHandler(this.viewFiniteToolStripMenuItem_Click);
+            // 
+            // toroidalContextStripMenuItem
+            // 
+            this.toroidalContextStripMenuItem.CheckOnClick = true;
+            this.toroidalContextStripMenuItem.Name = "toroidalContextStripMenuItem";
+            this.toroidalContextStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.toroidalContextStripMenuItem.Text = "Toroidal";
+            this.toroidalContextStripMenuItem.Click += new System.EventHandler(this.viewToroidalToolStripMenuItem_Click);
+            // 
+            // colorContextMenuItem
+            // 
+            this.colorContextMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.gridColorContextMenuItem,
+            this.cellColorContextMenuItem,
+            this.backgroundColorToolStripMenuItem1});
+            this.colorContextMenuItem.Name = "colorContextMenuItem";
+            this.colorContextMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.colorContextMenuItem.Text = "&Color";
+            // 
+            // gridColorContextMenuItem
+            // 
+            this.gridColorContextMenuItem.Name = "gridColorContextMenuItem";
+            this.gridColorContextMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.gridColorContextMenuItem.Text = "&Grid Color";
+            this.gridColorContextMenuItem.Click += new System.EventHandler(this.gridColorToolStripMenuItem_Click);
+            // 
+            // cellColorContextMenuItem
+            // 
+            this.cellColorContextMenuItem.Name = "cellColorContextMenuItem";
+            this.cellColorContextMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.cellColorContextMenuItem.Text = "&Cell Color";
+            this.cellColorContextMenuItem.Click += new System.EventHandler(this.cellColorToolStripMenuItem_Click);
+            // 
+            // backgroundColorToolStripMenuItem1
+            // 
+            this.backgroundColorToolStripMenuItem1.Name = "backgroundColorToolStripMenuItem1";
+            this.backgroundColorToolStripMenuItem1.Size = new System.Drawing.Size(170, 22);
+            this.backgroundColorToolStripMenuItem1.Text = "&Background Color";
+            this.backgroundColorToolStripMenuItem1.Click += new System.EventHandler(this.backgroundColorToolStripMenuItem_Click);
+            // 
             // graphicsPanel1
             // 
             this.graphicsPanel1.BackColor = System.Drawing.SystemColors.Window;
@@ -498,100 +592,6 @@ namespace KindlesGOL
             this.graphicsPanel1.TabIndex = 3;
             this.graphicsPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.graphicsPanel1_Paint);
             this.graphicsPanel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.graphicsPanel1_MouseClick);
-            // 
-            // contextMenuStrip
-            // 
-            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.viewContextMenuItem,
-            this.colorContextMenuItem});
-            this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(181, 70);
-            // 
-            // viewContextMenuItem
-            // 
-            this.viewContextMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.gridContextMenuItem,
-            this.neighborContextMenuItem,
-            this.toolStripSeparator5,
-            this.finiteContextStripMenuItem,
-            this.toroidalContextStripMenuItem});
-            this.viewContextMenuItem.Name = "viewContextMenuItem";
-            this.viewContextMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.viewContextMenuItem.Text = "&View";
-            // 
-            // colorContextMenuItem
-            // 
-            this.colorContextMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.gridColorContextMenuItem,
-            this.cellColorContextMenuItem,
-            this.backgroundColorToolStripMenuItem1});
-            this.colorContextMenuItem.Name = "colorContextMenuItem";
-            this.colorContextMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.colorContextMenuItem.Text = "&Color";
-            // 
-            // cellColorContextMenuItem
-            // 
-            this.cellColorContextMenuItem.Name = "cellColorContextMenuItem";
-            this.cellColorContextMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.cellColorContextMenuItem.Text = "&Cell Color";
-            this.cellColorContextMenuItem.Click += new System.EventHandler(this.cellColorToolStripMenuItem_Click);
-            // 
-            // gridColorContextMenuItem
-            // 
-            this.gridColorContextMenuItem.Name = "gridColorContextMenuItem";
-            this.gridColorContextMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.gridColorContextMenuItem.Text = "&Grid Color";
-            this.gridColorContextMenuItem.Click += new System.EventHandler(this.gridColorToolStripMenuItem_Click);
-            // 
-            // gridContextMenuItem
-            // 
-            this.gridContextMenuItem.CheckOnClick = true;
-            this.gridContextMenuItem.Name = "gridContextMenuItem";
-            this.gridContextMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.gridContextMenuItem.Text = "&Grid";
-            this.gridContextMenuItem.Click += new System.EventHandler(this.viewGridToolStripMenuItem_Click);
-            // 
-            // neighborContextMenuItem
-            // 
-            this.neighborContextMenuItem.Name = "neighborContextMenuItem";
-            this.neighborContextMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.neighborContextMenuItem.Text = "&Neighbor Count";
-            this.neighborContextMenuItem.Click += new System.EventHandler(this.viewNeighborCountToolStripMenuItem_Click);
-            // 
-            // finiteContextStripMenuItem
-            // 
-            this.finiteContextStripMenuItem.CheckOnClick = true;
-            this.finiteContextStripMenuItem.Name = "finiteContextStripMenuItem";
-            this.finiteContextStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.finiteContextStripMenuItem.Text = "Finite";
-            this.finiteContextStripMenuItem.Click += new System.EventHandler(this.viewFiniteToolStripMenuItem_Click);
-            // 
-            // toroidalContextStripMenuItem
-            // 
-            this.toroidalContextStripMenuItem.CheckOnClick = true;
-            this.toroidalContextStripMenuItem.Name = "toroidalContextStripMenuItem";
-            this.toroidalContextStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.toroidalContextStripMenuItem.Text = "Toroidal";
-            this.toroidalContextStripMenuItem.Click += new System.EventHandler(this.viewToroidalToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(177, 6);
-            // 
-            // backgroundColorToolStripMenuItem
-            // 
-            this.backgroundColorToolStripMenuItem.Name = "backgroundColorToolStripMenuItem";
-            this.backgroundColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.backgroundColorToolStripMenuItem.Text = "Background Color";
-            this.backgroundColorToolStripMenuItem.Click += new System.EventHandler(this.backgroundColorToolStripMenuItem_Click);
-            // 
-            // backgroundColorToolStripMenuItem1
-            // 
-            this.backgroundColorToolStripMenuItem1.Name = "backgroundColorToolStripMenuItem1";
-            this.backgroundColorToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.backgroundColorToolStripMenuItem1.Text = "&Background Color";
-            this.backgroundColorToolStripMenuItem1.Click += new System.EventHandler(this.backgroundColorToolStripMenuItem_Click);
             // 
             // Form1
             // 
