@@ -23,9 +23,9 @@ namespace KindlesGOL
 
         // Drawing colors
         private Color gridColor = Color.Black;
-
         private Color cellColor = Color.LightGray;
         private Color backColor = Color.White;
+        private Color hudColor = Color.DarkOrange;
 
         // The Timer class
         private Timer timer = new Timer();
@@ -40,6 +40,7 @@ namespace KindlesGOL
         // This will tell if the user wants to see the neighbor count
         private bool viewNeighborCountEnabled = Properties.Settings.Default.neighborCountEnabledSetting;
 
+
         // This will tell what kind of neighbor count the user wants to see.
         // True = Finite
         // False = Toroidal
@@ -47,6 +48,9 @@ namespace KindlesGOL
 
         // This will tell if the user wants to see the grid or not
         private bool viewGrid = Properties.Settings.Default.viewGridSetting;
+
+        // Toggle the view of the HUD
+        private bool viewHUD = Properties.Settings.Default.viewHUDSetting;
 
         // This is the interval that the timer will go by in miliseconds, will be applied to the timer in Form1()
         private int intervalChoice = Properties.Settings.Default.intervalSetting;
@@ -87,7 +91,12 @@ namespace KindlesGOL
                 neighborCountToolStripMenuItem.Checked = true;
                 neighborContextMenuItem.Checked = true;
             }
-
+            if (viewHUD == true)
+            {
+                HUDToolStripMenuItem.Checked = true;
+                HUDContextToolStripMenuItem.Checked = true;
+            }
+            
             // Setup the timer
             timer.Interval = Properties.Settings.Default.intervalSetting; // milliseconds
             timer.Tick += Timer_Tick;
@@ -344,6 +353,36 @@ namespace KindlesGOL
                         e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
                     }
                 }
+            }
+
+            // Displays whether the HUD is visible or not
+            if (viewHUD == true)
+            {
+                // HUD Color
+                Brush HUDBrush = new SolidBrush(hudColor);
+
+                // Font/String for generating the HUD
+                Font HUDFont = new Font("Microsoft Sans Serif", 18f);
+                StringFormat HUDStuff = new StringFormat();
+                HUDStuff.Alignment = StringAlignment.Near;
+                HUDStuff.LineAlignment = StringAlignment.Near;
+
+                StringBuilder HUDStrings = new StringBuilder();
+                HUDStrings.AppendLine("Generations: " + generations);
+                HUDStrings.AppendLine("Cell Count: " + alive);
+                // Checks if the count neighbor type is Toroidal or Finite
+                if (neighborCountType == true) // Finite
+                {
+                    HUDStrings.AppendLine("Boundary Type: Finite");
+                }
+                if (neighborCountType == false) // Toroidal
+                {
+                    HUDStrings.AppendLine("Boundary Type: Toroidal");
+                }
+                HUDStrings.AppendLine("Universe Size: " + universe.GetLength(0) + " x " + universe.GetLength(1));
+                HUDStrings.AppendLine();
+                e.Graphics.DrawString(HUDStrings.ToString(), HUDFont, HUDBrush, ClientRectangle, HUDStuff);
+                HUDBrush.Dispose();
             }
 
             // Cleaning up custom created pens and brushes
@@ -679,15 +718,20 @@ namespace KindlesGOL
                         // Get the length of the current row string
                         // and adjust the maxWidth variable if necessary.
                         if (row.Length > maxWidth)
+                        {
                             maxWidth = row.Length;
+                        }
                     }
                 }
 
                 // Reset the file pointer back to the beginning of the file.
                 reader.BaseStream.Seek(0, SeekOrigin.Begin);
 
+                // This is to center the import
+                int centerX = this.universe.GetLength(0) / 2 - maxWidth / 2;
+                int centerY = this.universe.GetLength(1) / 2 - maxHeight / 2;
                 // Iterate through the file again, this time reading in the cells.
-                int curY = 0;
+                int curY = centerY;
                 while (!reader.EndOfStream)
                 {
                     // Read one row at a time.
@@ -703,8 +747,8 @@ namespace KindlesGOL
                         {
                             if (row[xPos] == 'O' && xPos < uniSizeX && curY < uniSizeY)
                             {
-                                universe[xPos, curY] = true;
-                                scratchPad[xPos, curY] = true;
+                                universe[xPos + centerX, curY] = true;
+                                scratchPad[xPos + centerX, curY] = true;
                                 alive++;
                             }
                         }
@@ -768,6 +812,27 @@ namespace KindlesGOL
         }
 
         #endregion Toggle view of the grid
+
+        #region Toggle view of the HUD
+
+        private void HUDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (viewHUD == true)
+            {
+                HUDToolStripMenuItem.Checked = false;
+                HUDContextToolStripMenuItem.Checked = false;
+                viewHUD = false;
+            }
+            else
+            {
+                HUDToolStripMenuItem.Checked = true;
+                HUDContextToolStripMenuItem.Checked = true;
+                viewHUD = true;
+            }
+            graphicsPanel1.Invalidate();
+        }
+
+        #endregion Toggle View of the HUD
 
         #region Pick neighbor count type
 
@@ -1018,6 +1083,7 @@ namespace KindlesGOL
             toroidalContextStripMenuItem.Checked = false;
 
             viewGrid = Properties.Settings.Default.viewGridSetting;
+            viewHUD = Properties.Settings.Default.viewGridSetting;
             intervalChoice = Properties.Settings.Default.intervalSetting;
 
             // generates new universe to prevent odd crashes when making the universe smaller
@@ -1054,7 +1120,9 @@ namespace KindlesGOL
             backColor = Properties.Settings.Default.backColorSetting;
             viewNeighborCountEnabled = Properties.Settings.Default.neighborCountEnabledSetting;
             neighborCountType = Properties.Settings.Default.neighborCountTypeSetting;
+
             viewGrid = Properties.Settings.Default.viewGridSetting;
+            viewHUD = Properties.Settings.Default.viewGridSetting;
             intervalChoice = Properties.Settings.Default.intervalSetting;
 
             // generates new universe to prevent odd crashes when making the universe smaller
@@ -1172,7 +1240,7 @@ namespace KindlesGOL
 
         // Below saves the settings upon close
 
-        #region Saves options picked by the user
+        #region Saves options picked by the user upon close
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -1187,10 +1255,11 @@ namespace KindlesGOL
             Properties.Settings.Default.neighborCountTypeSetting = neighborCountType;
             Properties.Settings.Default.neighborCountEnabledSetting = viewNeighborCountEnabled;
             Properties.Settings.Default.viewGridSetting = viewGrid;
+            Properties.Settings.Default.viewHUDSetting = viewHUD;
 
             Properties.Settings.Default.Save();
         }
 
-        #endregion Saves options picked by the user
+        #endregion Saves options picked by the user upon close
     }
 }
