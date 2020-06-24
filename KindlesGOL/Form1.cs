@@ -124,10 +124,10 @@ namespace KindlesGOL
             // Sets the count of cells to 0 so it doesn't display a number that always grows
             alive = 0;
             // Iterate through the universe in the y, top to bottom
-            for (int y = 0; y < universe.GetLength(0); y++)
+            for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
-                for (int x = 0; x < universe.GetLength(1); x++)
+                for (int x = 0; x < universe.GetLength(0); x++)
                 {
                     if (universe[x, y] == true) { alive++; }
 
@@ -368,8 +368,15 @@ namespace KindlesGOL
                 HUDStuff.LineAlignment = StringAlignment.Near;
 
                 StringBuilder HUDStrings = new StringBuilder();
-                HUDStrings.AppendLine("Generations: " + generations);
-                HUDStrings.AppendLine("Cell Count: " + alive);
+                if (generations <= 1)
+                {
+                    HUDStrings.AppendLine("Generation: " + generations);
+                }
+                if (generations > 1)
+                {
+                    HUDStrings.AppendLine("Generations: " + generations);
+                }
+                HUDStrings.AppendLine("Alive Cells: " + alive);
                 // Checks if the count neighbor type is Toroidal or Finite
                 if (neighborCountType == true) // Finite
                 {
