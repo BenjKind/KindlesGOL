@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace KindlesGOL
 {
-    public partial class Form1 : Form
+    public partial class GOL : Form
     {
         // The universe array
         // Determines the size of the array on the X Axis
@@ -23,6 +23,7 @@ namespace KindlesGOL
 
         // Drawing colors
         private Color gridColor = Color.Black;
+
         private Color cellColor = Color.LightGray;
         private Color backColor = Color.White;
         private Color hudColor = Color.DarkOrange;
@@ -39,7 +40,6 @@ namespace KindlesGOL
         // User Choices Stuff
         // This will tell if the user wants to see the neighbor count
         private bool viewNeighborCountEnabled = Properties.Settings.Default.neighborCountEnabledSetting;
-
 
         // This will tell what kind of neighbor count the user wants to see.
         // True = Finite
@@ -62,7 +62,7 @@ namespace KindlesGOL
 
         #region Initialization and Timer variables
 
-        public Form1()
+        public GOL()
         {
             InitializeComponent();
 
@@ -96,7 +96,7 @@ namespace KindlesGOL
                 HUDToolStripMenuItem.Checked = true;
                 HUDContextToolStripMenuItem.Checked = true;
             }
-            
+
             // Setup the timer
             timer.Interval = Properties.Settings.Default.intervalSetting; // milliseconds
             timer.Tick += Timer_Tick;
@@ -286,23 +286,56 @@ namespace KindlesGOL
                         e.Graphics.FillRectangle(deadBrush, cellRect);
                     }
 
+                    // Check to ensure universe is smaller than 125x125 to enable/disable neighborcount, causes performance issues
+                    if (universe.GetLength(0) <= 125 || universe.GetLength(1) <= 125) // Enable Counts
+                    {
+                        if (viewNeighborCountEnabled == true)
+                        {
+                            neighborCountToolStripMenuItem.Enabled = true;
+                            neighborCountToolStripMenuItem.Checked = true;
+                            neighborContextMenuItem.Enabled = true;
+                            neighborContextMenuItem.Checked = true;
+                        }
+                        if (viewNeighborCountEnabled == false)
+                        {
+                            neighborCountToolStripMenuItem.Enabled = true;
+                            neighborCountToolStripMenuItem.Checked = false;
+                            neighborContextMenuItem.Enabled = true;
+                            neighborContextMenuItem.Checked = false;
+                        }
+                        if (viewGrid == true)
+                        {
+                            gridToolStripMenuItem.Enabled = true;
+                            gridToolStripMenuItem.Checked = true;
+                            gridContextMenuItem.Enabled = true;
+                            gridContextMenuItem.Checked = true;
+                        }
+                        if (viewGrid == false)
+                        {
+                            gridToolStripMenuItem.Enabled = true;
+                            gridToolStripMenuItem.Checked = false;
+                            gridContextMenuItem.Enabled = true;
+                            gridContextMenuItem.Checked = false;
+                        }
+                    }
+
+                    if (universe.GetLength(0) >= 125 || universe.GetLength(1) >= 125) // Disable Counts and grid
+                    {
+                        viewNeighborCountEnabled = false;
+                        neighborCountToolStripMenuItem.Checked = false;
+                        neighborCountToolStripMenuItem.Enabled = false;
+                        neighborContextMenuItem.Checked = false;
+                        neighborContextMenuItem.Enabled = false;
+                        viewGrid = false;
+                        gridToolStripMenuItem.Checked = false;
+                        gridToolStripMenuItem.Enabled = false;
+                        gridContextMenuItem.Checked = false;
+                        gridContextMenuItem.Enabled = false;
+                    }
+
                     // Draw the number of neighbors for each cell
                     if (viewNeighborCountEnabled == true)
                     {
-                        // Check to ensure universe is smaller than 125x125 to enable/disable neighborcount, causes performance issues
-                        if (universe.GetLength(0) <= 125 || universe.GetLength(1) <= 125) // Enable Counts
-                        {
-                            viewNeighborCountEnabled = true;
-                            neighborCountToolStripMenuItem.Checked = true;
-                            neighborCountToolStripMenuItem.Enabled = true;
-                        }
-                        if (universe.GetLength(0) >= 125 || universe.GetLength(1) >= 125) // Disable Counts
-                        {
-                            viewNeighborCountEnabled = false;
-                            neighborCountToolStripMenuItem.Checked = false;
-                            neighborCountToolStripMenuItem.Enabled = false;
-                        }
-
                         // Gets the kind of count the user has chosen
                         // (neighborCountType == true) = run as Finite
                         if (neighborCountType == true)
@@ -571,13 +604,13 @@ namespace KindlesGOL
                 writer.WriteLine("!");
 
                 // Iterate through the universe one row at a time.
-                for (int y = 0; y < universe.GetLength(0); y++)
+                for (int y = 0; y < universe.GetLength(1); y++)
                 {
                     // Create a string to represent the current row.
                     StringBuilder currentRow = new StringBuilder();
 
                     // Iterate through the current row one cell at a time.
-                    for (int x = 0; x < universe.GetLength(1); x++)
+                    for (int x = 0; x < universe.GetLength(0); x++)
                     {
                         // If the universe[x,y] is alive then append 'O' (capital O)
                         // to the row string.
@@ -670,7 +703,7 @@ namespace KindlesGOL
                             if (row[xPos] == 'O')
                             {
                                 universe[xPos, curY] = true;
-                                scratchPad[xPos, curY] = true;
+                                //scratchPad[xPos, curY] = true;
                                 alive++;
                             }
                         }
@@ -839,7 +872,7 @@ namespace KindlesGOL
             graphicsPanel1.Invalidate();
         }
 
-        #endregion Toggle View of the HUD
+        #endregion Toggle view of the HUD
 
         #region Pick neighbor count type
 
@@ -855,6 +888,8 @@ namespace KindlesGOL
                 // Unchecks the Toroidal option
                 toroidalToolStripMenuItem.Checked = false;
                 toroidalContextStripMenuItem.Checked = false;
+                finiteToolStripMenuItem.Checked = true;
+                finiteContextStripMenuItem.Checked = true;
                 // Enables the Toroidal Button
                 toroidalToolStripMenuItem.Enabled = true;
                 toroidalContextStripMenuItem.Enabled = true;
@@ -877,6 +912,8 @@ namespace KindlesGOL
                 // Unchecks Finite option
                 finiteToolStripMenuItem.Checked = false;
                 finiteContextStripMenuItem.Checked = false;
+                toroidalToolStripMenuItem.Checked = true;
+                toroidalContextStripMenuItem.Checked = true;
                 // Enables the Finite Button
                 finiteToolStripMenuItem.Enabled = true;
                 finiteContextStripMenuItem.Enabled = true;
@@ -896,6 +933,7 @@ namespace KindlesGOL
         {
             // Custom modal window
             seedModalDiag seeder = new seedModalDiag();
+            seeder.inputNum = seed;
             alive = 0;
 
             if (DialogResult.OK == seeder.ShowDialog())
@@ -987,6 +1025,9 @@ namespace KindlesGOL
         {
             // Runs custom modal window
             uniOptions options = new uniOptions();
+            options.inputInterval = intervalChoice;
+            options.inputWidth = uniSizeX;
+            options.inputHeight = uniSizeY;
 
             if (DialogResult.OK == options.ShowDialog())
             {

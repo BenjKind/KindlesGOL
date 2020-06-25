@@ -2,7 +2,7 @@
 
 namespace KindlesGOL
 {
-    partial class Form1
+    partial class GOL
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@ namespace KindlesGOL
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GOL));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,6 +82,7 @@ namespace KindlesGOL
             this.viewContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.neighborContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.HUDContextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.finiteContextStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toroidalContextStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,7 +90,6 @@ namespace KindlesGOL
             this.gridColorContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cellColorContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundColorToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.HUDContextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.graphicsPanel1 = new KindlesGOL.GraphicsPanel();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -133,7 +133,7 @@ namespace KindlesGOL
             this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newToolStripMenuItem.Text = "&New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -143,21 +143,21 @@ namespace KindlesGOL
             this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripButton_Click);
             // 
             // importToolStripMenu
             // 
             this.importToolStripMenu.Name = "importToolStripMenu";
-            this.importToolStripMenu.Size = new System.Drawing.Size(146, 22);
+            this.importToolStripMenu.Size = new System.Drawing.Size(180, 22);
             this.importToolStripMenu.Text = "&Import";
             this.importToolStripMenu.Click += new System.EventHandler(this.importToolStripButton_Click);
             // 
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(143, 6);
+            this.toolStripSeparator.Size = new System.Drawing.Size(177, 6);
             // 
             // saveToolStripMenuItem
             // 
@@ -165,19 +165,19 @@ namespace KindlesGOL
             this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripButton_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(143, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -199,7 +199,7 @@ namespace KindlesGOL
             this.gridToolStripMenuItem.CheckOnClick = true;
             this.gridToolStripMenuItem.Name = "gridToolStripMenuItem";
             this.gridToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.gridToolStripMenuItem.Text = "Grid";
+            this.gridToolStripMenuItem.Text = "&Grid";
             this.gridToolStripMenuItem.Click += new System.EventHandler(this.viewGridToolStripMenuItem_Click);
             // 
             // neighborCountToolStripMenuItem
@@ -207,7 +207,7 @@ namespace KindlesGOL
             this.neighborCountToolStripMenuItem.CheckOnClick = true;
             this.neighborCountToolStripMenuItem.Name = "neighborCountToolStripMenuItem";
             this.neighborCountToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.neighborCountToolStripMenuItem.Text = "Neighbor Count";
+            this.neighborCountToolStripMenuItem.Text = "&Neighbor Count";
             this.neighborCountToolStripMenuItem.Click += new System.EventHandler(this.viewNeighborCountToolStripMenuItem_Click);
             // 
             // HUDToolStripMenuItem
@@ -215,7 +215,7 @@ namespace KindlesGOL
             this.HUDToolStripMenuItem.CheckOnClick = true;
             this.HUDToolStripMenuItem.Name = "HUDToolStripMenuItem";
             this.HUDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.HUDToolStripMenuItem.Text = "HUD";
+            this.HUDToolStripMenuItem.Text = "&HUD";
             this.HUDToolStripMenuItem.Click += new System.EventHandler(this.HUDToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
@@ -228,7 +228,7 @@ namespace KindlesGOL
             this.finiteToolStripMenuItem.CheckOnClick = true;
             this.finiteToolStripMenuItem.Name = "finiteToolStripMenuItem";
             this.finiteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.finiteToolStripMenuItem.Text = "Finite";
+            this.finiteToolStripMenuItem.Text = "&Finite";
             this.finiteToolStripMenuItem.Click += new System.EventHandler(this.viewFiniteToolStripMenuItem_Click);
             // 
             // toroidalToolStripMenuItem
@@ -236,7 +236,7 @@ namespace KindlesGOL
             this.toroidalToolStripMenuItem.CheckOnClick = true;
             this.toroidalToolStripMenuItem.Name = "toroidalToolStripMenuItem";
             this.toroidalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.toroidalToolStripMenuItem.Text = "Toroidal";
+            this.toroidalToolStripMenuItem.Text = "&Toroidal";
             this.toroidalToolStripMenuItem.Click += new System.EventHandler(this.viewToroidalToolStripMenuItem_Click);
             // 
             // runToolStripMenuItem
@@ -253,24 +253,24 @@ namespace KindlesGOL
             // 
             this.startStripMenuItem.Name = "startStripMenuItem";
             this.startStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.startStripMenuItem.Size = new System.Drawing.Size(179, 22);
-            this.startStripMenuItem.Text = "Start";
+            this.startStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.startStripMenuItem.Text = "&Start";
             this.startStripMenuItem.Click += new System.EventHandler(this.playStateButton);
             // 
             // nextGenStripMenuItem
             // 
             this.nextGenStripMenuItem.Name = "nextGenStripMenuItem";
             this.nextGenStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.nextGenStripMenuItem.Size = new System.Drawing.Size(179, 22);
-            this.nextGenStripMenuItem.Text = "Next Generation";
+            this.nextGenStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nextGenStripMenuItem.Text = "&Next Generation";
             this.nextGenStripMenuItem.Click += new System.EventHandler(this.nextGenStateButton);
             // 
             // runToToolStripMenuItem
             // 
             this.runToToolStripMenuItem.Name = "runToToolStripMenuItem";
             this.runToToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.runToToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
-            this.runToToolStripMenuItem.Text = "Jump Over";
+            this.runToToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.runToToolStripMenuItem.Text = "&Jump Over";
             this.runToToolStripMenuItem.Click += new System.EventHandler(this.RunToGenMenuItem_Click);
             // 
             // randomizeToolStripMenuItem
@@ -286,22 +286,22 @@ namespace KindlesGOL
             // newSeedStripMenuItem
             // 
             this.newSeedStripMenuItem.Name = "newSeedStripMenuItem";
-            this.newSeedStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.newSeedStripMenuItem.Text = "From Seed";
+            this.newSeedStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newSeedStripMenuItem.Text = "&From Seed";
             this.newSeedStripMenuItem.Click += new System.EventHandler(this.randomizeFromInputedSeedToolStripMenuItem_Click);
             // 
             // curSeedStripMenuItem
             // 
             this.curSeedStripMenuItem.Name = "curSeedStripMenuItem";
-            this.curSeedStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.curSeedStripMenuItem.Text = "From Current Seed";
+            this.curSeedStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.curSeedStripMenuItem.Text = "&From Current Seed";
             this.curSeedStripMenuItem.Click += new System.EventHandler(this.randomizeFromCurSeedToolStripMenuItem_Click);
             // 
             // timeSeedStripMenuItem
             // 
             this.timeSeedStripMenuItem.Name = "timeSeedStripMenuItem";
-            this.timeSeedStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.timeSeedStripMenuItem.Text = "From Time";
+            this.timeSeedStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.timeSeedStripMenuItem.Text = "&From Time";
             this.timeSeedStripMenuItem.Click += new System.EventHandler(this.randomizeFromTimeToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
@@ -322,53 +322,53 @@ namespace KindlesGOL
             // universeToolStripMenuItem
             // 
             this.universeToolStripMenuItem.Name = "universeToolStripMenuItem";
-            this.universeToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.universeToolStripMenuItem.Text = "Universe Options";
+            this.universeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.universeToolStripMenuItem.Text = "&Universe Options";
             this.universeToolStripMenuItem.Click += new System.EventHandler(this.universeToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(167, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
             // 
             // gridColorToolStripMenuItem
             // 
             this.gridColorToolStripMenuItem.Name = "gridColorToolStripMenuItem";
-            this.gridColorToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.gridColorToolStripMenuItem.Text = "Grid Color";
+            this.gridColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gridColorToolStripMenuItem.Text = "&Grid Color";
             this.gridColorToolStripMenuItem.Click += new System.EventHandler(this.gridColorToolStripMenuItem_Click);
             // 
             // cellColorToolStripMenuItem
             // 
             this.cellColorToolStripMenuItem.Name = "cellColorToolStripMenuItem";
-            this.cellColorToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.cellColorToolStripMenuItem.Text = "Cell Color";
+            this.cellColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cellColorToolStripMenuItem.Text = "&Cell Color";
             this.cellColorToolStripMenuItem.Click += new System.EventHandler(this.cellColorToolStripMenuItem_Click);
             // 
             // backgroundColorToolStripMenuItem
             // 
             this.backgroundColorToolStripMenuItem.Name = "backgroundColorToolStripMenuItem";
-            this.backgroundColorToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.backgroundColorToolStripMenuItem.Text = "Background Color";
+            this.backgroundColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.backgroundColorToolStripMenuItem.Text = "&Background Color";
             this.backgroundColorToolStripMenuItem.Click += new System.EventHandler(this.backgroundColorToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(167, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
             // 
             // resetToolStripMenuItem
             // 
             this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.resetToolStripMenuItem.Text = "Reset";
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.resetToolStripMenuItem.Text = "&Reset";
             this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
             // 
             // reloadToolStripMenuItem
             // 
             this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.reloadToolStripMenuItem.Text = "Reload";
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reloadToolStripMenuItem.Text = "&Reload";
             this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
             // 
             // statusStripTextBox
@@ -530,27 +530,35 @@ namespace KindlesGOL
             // 
             this.gridContextMenuItem.CheckOnClick = true;
             this.gridContextMenuItem.Name = "gridContextMenuItem";
-            this.gridContextMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gridContextMenuItem.Size = new System.Drawing.Size(160, 22);
             this.gridContextMenuItem.Text = "&Grid";
             this.gridContextMenuItem.Click += new System.EventHandler(this.viewGridToolStripMenuItem_Click);
             // 
             // neighborContextMenuItem
             // 
             this.neighborContextMenuItem.Name = "neighborContextMenuItem";
-            this.neighborContextMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.neighborContextMenuItem.Size = new System.Drawing.Size(160, 22);
             this.neighborContextMenuItem.Text = "&Neighbor Count";
             this.neighborContextMenuItem.Click += new System.EventHandler(this.viewNeighborCountToolStripMenuItem_Click);
+            // 
+            // HUDContextToolStripMenuItem
+            // 
+            this.HUDContextToolStripMenuItem.CheckOnClick = true;
+            this.HUDContextToolStripMenuItem.Name = "HUDContextToolStripMenuItem";
+            this.HUDContextToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.HUDContextToolStripMenuItem.Text = "&HUD";
+            this.HUDContextToolStripMenuItem.Click += new System.EventHandler(this.HUDToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(157, 6);
             // 
             // finiteContextStripMenuItem
             // 
             this.finiteContextStripMenuItem.CheckOnClick = true;
             this.finiteContextStripMenuItem.Name = "finiteContextStripMenuItem";
-            this.finiteContextStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.finiteContextStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.finiteContextStripMenuItem.Text = "Finite";
             this.finiteContextStripMenuItem.Click += new System.EventHandler(this.viewFiniteToolStripMenuItem_Click);
             // 
@@ -558,7 +566,7 @@ namespace KindlesGOL
             // 
             this.toroidalContextStripMenuItem.CheckOnClick = true;
             this.toroidalContextStripMenuItem.Name = "toroidalContextStripMenuItem";
-            this.toroidalContextStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.toroidalContextStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.toroidalContextStripMenuItem.Text = "Toroidal";
             this.toroidalContextStripMenuItem.Click += new System.EventHandler(this.viewToroidalToolStripMenuItem_Click);
             // 
@@ -575,31 +583,23 @@ namespace KindlesGOL
             // gridColorContextMenuItem
             // 
             this.gridColorContextMenuItem.Name = "gridColorContextMenuItem";
-            this.gridColorContextMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gridColorContextMenuItem.Size = new System.Drawing.Size(170, 22);
             this.gridColorContextMenuItem.Text = "&Grid Color";
             this.gridColorContextMenuItem.Click += new System.EventHandler(this.gridColorToolStripMenuItem_Click);
             // 
             // cellColorContextMenuItem
             // 
             this.cellColorContextMenuItem.Name = "cellColorContextMenuItem";
-            this.cellColorContextMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cellColorContextMenuItem.Size = new System.Drawing.Size(170, 22);
             this.cellColorContextMenuItem.Text = "&Cell Color";
             this.cellColorContextMenuItem.Click += new System.EventHandler(this.cellColorToolStripMenuItem_Click);
             // 
             // backgroundColorToolStripMenuItem1
             // 
             this.backgroundColorToolStripMenuItem1.Name = "backgroundColorToolStripMenuItem1";
-            this.backgroundColorToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.backgroundColorToolStripMenuItem1.Size = new System.Drawing.Size(170, 22);
             this.backgroundColorToolStripMenuItem1.Text = "&Background Color";
             this.backgroundColorToolStripMenuItem1.Click += new System.EventHandler(this.backgroundColorToolStripMenuItem_Click);
-            // 
-            // HUDContextToolStripMenuItem
-            // 
-            this.HUDContextToolStripMenuItem.CheckOnClick = true;
-            this.HUDContextToolStripMenuItem.Name = "HUDContextToolStripMenuItem";
-            this.HUDContextToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.HUDContextToolStripMenuItem.Text = "&HUD";
-            this.HUDContextToolStripMenuItem.Click += new System.EventHandler(this.HUDToolStripMenuItem_Click);
             // 
             // graphicsPanel1
             // 
@@ -613,11 +613,11 @@ namespace KindlesGOL
             this.graphicsPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.graphicsPanel1_Paint);
             this.graphicsPanel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.graphicsPanel1_MouseClick);
             // 
-            // Form1
+            // GOL
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.BackColor = System.Drawing.SystemColors.Desktop;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(993, 672);
             this.Controls.Add(this.graphicsPanel1);
             this.Controls.Add(this.statusStrip1);
@@ -625,7 +625,7 @@ namespace KindlesGOL
             this.Controls.Add(this.menuStrip1);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
+            this.Name = "GOL";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Game of Life - Kindle";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

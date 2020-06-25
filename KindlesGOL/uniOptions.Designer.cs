@@ -37,6 +37,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.buttonDefaults = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.timerInterInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uniWidthInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uniHeightInput)).BeginInit();
@@ -45,22 +46,24 @@
             // buttonOK
             // 
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(68, 147);
+            this.buttonOK.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonOK.Location = new System.Drawing.Point(44, 178);
             this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(100, 25);
+            this.buttonOK.Size = new System.Drawing.Size(117, 25);
             this.buttonOK.TabIndex = 0;
-            this.buttonOK.Text = "OK";
+            this.buttonOK.Text = "&OK";
             this.buttonOK.UseVisualStyleBackColor = true;
             // 
             // buttonClose
             // 
             this.buttonClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonClose.Location = new System.Drawing.Point(174, 147);
+            this.buttonClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonClose.Location = new System.Drawing.Point(191, 178);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.buttonClose.Size = new System.Drawing.Size(100, 25);
+            this.buttonClose.Size = new System.Drawing.Size(117, 25);
             this.buttonClose.TabIndex = 1;
-            this.buttonClose.Text = "Cancel";
+            this.buttonClose.Text = "&Cancel";
             this.buttonClose.UseVisualStyleBackColor = true;
             // 
             // timerInterInput
@@ -182,11 +185,23 @@
             this.label4.TabIndex = 8;
             this.label4.Text = "Size of the universe in Cells   ( 10 - 1000 )";
             // 
+            // buttonDefaults
+            // 
+            this.buttonDefaults.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonDefaults.Location = new System.Drawing.Point(73, 149);
+            this.buttonDefaults.Name = "buttonDefaults";
+            this.buttonDefaults.Size = new System.Drawing.Size(210, 23);
+            this.buttonDefaults.TabIndex = 9;
+            this.buttonDefaults.Text = "Restore to Defaults";
+            this.buttonDefaults.UseVisualStyleBackColor = true;
+            this.buttonDefaults.Click += new System.EventHandler(this.buttonDefaults_Click);
+            // 
             // uniOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(336, 191);
+            this.ClientSize = new System.Drawing.Size(336, 212);
+            this.Controls.Add(this.buttonDefaults);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -223,5 +238,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button buttonDefaults;
     }
 }

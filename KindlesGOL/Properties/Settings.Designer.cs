@@ -73,7 +73,7 @@ namespace KindlesGOL.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("LightGray")]
+        [global::System.Configuration.DefaultSettingValueAttribute("DarkGray")]
         public global::System.Drawing.Color cellColorSetting {
             get {
                 return ((global::System.Drawing.Color)(this["cellColorSetting"]));
@@ -133,7 +133,7 @@ namespace KindlesGOL.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        [global::System.Configuration.DefaultSettingValueAttribute("LightGray")]
         public global::System.Drawing.Color backColorSetting {
             get {
                 return ((global::System.Drawing.Color)(this["backColorSetting"]));

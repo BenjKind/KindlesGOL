@@ -37,5 +37,12 @@ namespace KindlesGOL
             get { return (int)uniHeightInput.Value; }
             set { uniHeightInput.Value = value; }
         }
+
+        private void buttonDefaults_Click(object sender, EventArgs e)
+        {
+            inputInterval = 32;
+            inputWidth = 75;
+            inputHeight = 75;
+        }
     }
 }

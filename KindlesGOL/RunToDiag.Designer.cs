@@ -38,21 +38,23 @@
             // buttonOK
             // 
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.buttonOK.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonOK.Location = new System.Drawing.Point(12, 82);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(100, 25);
             this.buttonOK.TabIndex = 2;
-            this.buttonOK.Text = "OK";
+            this.buttonOK.Text = "&OK";
             this.buttonOK.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
             this.button3.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button3.Location = new System.Drawing.Point(139, 82);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(100, 25);
             this.button3.TabIndex = 3;
-            this.button3.Text = "Cancel";
+            this.button3.Text = "&Cancel";
             this.button3.UseVisualStyleBackColor = true;
             // 
             // label1
