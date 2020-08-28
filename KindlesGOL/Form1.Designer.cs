@@ -36,9 +36,8 @@ namespace KindlesGOL
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -118,9 +117,8 @@ namespace KindlesGOL
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
-            this.importToolStripMenu,
-            this.toolStripSeparator,
             this.saveToolStripMenuItem,
+            this.importToolStripMenu,
             this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -143,21 +141,9 @@ namespace KindlesGOL
             this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripButton_Click);
-            // 
-            // importToolStripMenu
-            // 
-            this.importToolStripMenu.Name = "importToolStripMenu";
-            this.importToolStripMenu.Size = new System.Drawing.Size(180, 22);
-            this.importToolStripMenu.Text = "&Import";
-            this.importToolStripMenu.Click += new System.EventHandler(this.importToolStripButton_Click);
-            // 
-            // toolStripSeparator
-            // 
-            this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(177, 6);
             // 
             // saveToolStripMenuItem
             // 
@@ -165,19 +151,26 @@ namespace KindlesGOL
             this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripButton_Click);
+            // 
+            // importToolStripMenu
+            // 
+            this.importToolStripMenu.Name = "importToolStripMenu";
+            this.importToolStripMenu.Size = new System.Drawing.Size(146, 22);
+            this.importToolStripMenu.Text = "&Import";
+            this.importToolStripMenu.Click += new System.EventHandler(this.importToolStripButton_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(143, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -198,7 +191,7 @@ namespace KindlesGOL
             // 
             this.gridToolStripMenuItem.CheckOnClick = true;
             this.gridToolStripMenuItem.Name = "gridToolStripMenuItem";
-            this.gridToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gridToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.gridToolStripMenuItem.Text = "&Grid";
             this.gridToolStripMenuItem.Click += new System.EventHandler(this.viewGridToolStripMenuItem_Click);
             // 
@@ -206,7 +199,7 @@ namespace KindlesGOL
             // 
             this.neighborCountToolStripMenuItem.CheckOnClick = true;
             this.neighborCountToolStripMenuItem.Name = "neighborCountToolStripMenuItem";
-            this.neighborCountToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.neighborCountToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.neighborCountToolStripMenuItem.Text = "&Neighbor Count";
             this.neighborCountToolStripMenuItem.Click += new System.EventHandler(this.viewNeighborCountToolStripMenuItem_Click);
             // 
@@ -214,20 +207,20 @@ namespace KindlesGOL
             // 
             this.HUDToolStripMenuItem.CheckOnClick = true;
             this.HUDToolStripMenuItem.Name = "HUDToolStripMenuItem";
-            this.HUDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.HUDToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.HUDToolStripMenuItem.Text = "&HUD";
             this.HUDToolStripMenuItem.Click += new System.EventHandler(this.HUDToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(157, 6);
             // 
             // finiteToolStripMenuItem
             // 
             this.finiteToolStripMenuItem.CheckOnClick = true;
             this.finiteToolStripMenuItem.Name = "finiteToolStripMenuItem";
-            this.finiteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.finiteToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.finiteToolStripMenuItem.Text = "&Finite";
             this.finiteToolStripMenuItem.Click += new System.EventHandler(this.viewFiniteToolStripMenuItem_Click);
             // 
@@ -235,7 +228,7 @@ namespace KindlesGOL
             // 
             this.toroidalToolStripMenuItem.CheckOnClick = true;
             this.toroidalToolStripMenuItem.Name = "toroidalToolStripMenuItem";
-            this.toroidalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.toroidalToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.toroidalToolStripMenuItem.Text = "&Toroidal";
             this.toroidalToolStripMenuItem.Click += new System.EventHandler(this.viewToroidalToolStripMenuItem_Click);
             // 
@@ -253,7 +246,7 @@ namespace KindlesGOL
             // 
             this.startStripMenuItem.Name = "startStripMenuItem";
             this.startStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.startStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.startStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.startStripMenuItem.Text = "&Start";
             this.startStripMenuItem.Click += new System.EventHandler(this.playStateButton);
             // 
@@ -261,7 +254,7 @@ namespace KindlesGOL
             // 
             this.nextGenStripMenuItem.Name = "nextGenStripMenuItem";
             this.nextGenStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.nextGenStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nextGenStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.nextGenStripMenuItem.Text = "&Next Generation";
             this.nextGenStripMenuItem.Click += new System.EventHandler(this.nextGenStateButton);
             // 
@@ -270,7 +263,7 @@ namespace KindlesGOL
             this.runToToolStripMenuItem.Name = "runToToolStripMenuItem";
             this.runToToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F7;
             this.runToToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.runToToolStripMenuItem.Text = "&Jump Over";
+            this.runToToolStripMenuItem.Text = "&Skip Over";
             this.runToToolStripMenuItem.Click += new System.EventHandler(this.RunToGenMenuItem_Click);
             // 
             // randomizeToolStripMenuItem
@@ -286,21 +279,21 @@ namespace KindlesGOL
             // newSeedStripMenuItem
             // 
             this.newSeedStripMenuItem.Name = "newSeedStripMenuItem";
-            this.newSeedStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newSeedStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.newSeedStripMenuItem.Text = "&From Seed";
             this.newSeedStripMenuItem.Click += new System.EventHandler(this.randomizeFromInputedSeedToolStripMenuItem_Click);
             // 
             // curSeedStripMenuItem
             // 
             this.curSeedStripMenuItem.Name = "curSeedStripMenuItem";
-            this.curSeedStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.curSeedStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.curSeedStripMenuItem.Text = "&From Current Seed";
             this.curSeedStripMenuItem.Click += new System.EventHandler(this.randomizeFromCurSeedToolStripMenuItem_Click);
             // 
             // timeSeedStripMenuItem
             // 
             this.timeSeedStripMenuItem.Name = "timeSeedStripMenuItem";
-            this.timeSeedStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.timeSeedStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.timeSeedStripMenuItem.Text = "&From Time";
             this.timeSeedStripMenuItem.Click += new System.EventHandler(this.randomizeFromTimeToolStripMenuItem_Click);
             // 
@@ -316,8 +309,8 @@ namespace KindlesGOL
             this.resetToolStripMenuItem,
             this.reloadToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(85, 27);
-            this.settingsToolStripMenuItem.Text = "&Settings WIP";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 27);
+            this.settingsToolStripMenuItem.Text = "&Settings";
             // 
             // universeToolStripMenuItem
             // 
@@ -361,14 +354,14 @@ namespace KindlesGOL
             // 
             this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
             this.resetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.resetToolStripMenuItem.Text = "&Reset";
+            this.resetToolStripMenuItem.Text = "&Default Settings";
             this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
             // 
             // reloadToolStripMenuItem
             // 
             this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
             this.reloadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.reloadToolStripMenuItem.Text = "&Reload";
+            this.reloadToolStripMenuItem.Text = "&Reload Settings";
             this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
             // 
             // statusStripTextBox
@@ -651,7 +644,6 @@ namespace KindlesGOL
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
